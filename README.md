@@ -79,7 +79,7 @@ and keeps the battle timer on.
 
 ## Credits and licence
 
-Built by **Gurasees Singh Dhanoa** ([@GuraseesWasNotAvailable](https://github.com/GuraseesWasNotAvailable))
+Built by [@GuraseesWasNotAvailable](https://github.com/GuraseesWasNotAvailable)
 and **[@UberMayinch](https://github.com/UberMayinch)**, equal contributors. It builds on
 **[Nebraskinator/ps-ppo](https://github.com/Nebraskinator/ps-ppo)**, the transformer and PPO setup
 it started from.
