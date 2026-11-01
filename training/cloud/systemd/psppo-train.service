@@ -1,0 +1,72 @@
+# ps-ppo training supervisor. Installed by cloud/install_services.sh (which rewrites the paths
+# below if the box is laid out differently).
+#
+#   sudo systemctl start psppo-train       start the run, or resume it where it stopped
+#   sudo systemctl stop psppo-train        clean stop: the trainer saves a checkpoint first
+#                                          (stop it this way: "pipeline.py --stop" also stops it
+#                                          cleanly, but systemd would start it again 30 s later)
+#   sudo systemctl restart psppo-train     the same, then resume: this is how a changed
+#                                          cloud/run_vm.json takes effect
+#   journalctl -u psppo-train -f           the supervisor's log (also runs/main/logs/pipeline.log)
+#   /home/ubuntu/venv/bin/python /home/ubuntu/ps-ppo/status.py --run-dir /home/ubuntu/runs/main
+#
+# Enabled at boot, so after a spot interruption (the box stops, later starts again) the run
+# resumes by itself: same phase, newest checkpoint.
+
+[Unit]
+Description=ps-ppo training supervisor (pipeline.py: Showdown servers, trainer, phases)
+Wants=network-online.target
+After=network-online.target
+# An internal error of the supervisor itself is retried, but not forever: 10 starts in 30 minutes.
+# The supervisor counts its own internal errors as well and marks the run failed after more than
+# watchdog.max_restarts_per_hour of them in an hour (6 in run_vm.json), so that "on_failed" applies
+# before this limit leaves the unit dead with nothing running. Keep StartLimitBurst above that
+# number plus one (tests/test_pipeline.py checks it).
+StartLimitIntervalSec=1800
+StartLimitBurst=10
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/ps-ppo
+Environment=PYTHONUTF8=1 PYTHONUNBUFFERED=1
+# Optional, one VAR=value per line (for example a PATH that contains node, or RAY_ settings).
+EnvironmentFile=-/home/ubuntu/psppo.env
+
+# Do not start a run that is finished or that the supervisor has given up on, not at boot and
+# not in a loop. "pipeline.py --can-start" exits 1 for those: the start is then skipped (the unit
+# is neither failed nor restarted). It exits 0 when there is something to do.
+# After fixing a failed run:
+#   /home/ubuntu/venv/bin/python /home/ubuntu/ps-ppo/pipeline.py --run-dir /home/ubuntu/runs/main --clear-failed
+#   sudo systemctl start psppo-train
+ExecCondition=/home/ubuntu/venv/bin/python /home/ubuntu/ps-ppo/pipeline.py --config /home/ubuntu/ps-ppo/cloud/run_vm.json --run-dir /home/ubuntu/runs/main --can-start
+ExecStart=/home/ubuntu/venv/bin/python /home/ubuntu/ps-ppo/pipeline.py --config /home/ubuntu/ps-ppo/cloud/run_vm.json --run-dir /home/ubuntu/runs/main
+
+Restart=always
+RestartSec=30
+# Exit codes a restart cannot fix: 2 bad config, 3 the run is marked failed (too many trainer
+# restarts in an hour), 4 the disk is full, 5 another supervisor already holds the run directory.
+# After 3 and 4 nothing runs and nothing starts again by itself. With "on_failed": "shutdown" in
+# the config the supervisor shuts the machine down before it exits with them (it waits
+# on_failed_grace_minutes first; "sudo systemctl stop psppo-train" in that time cancels it).
+# With "on_failed": "idle" the machine stays up, paid for, until somebody looks.
+RestartPreventExitStatus=2 3 4 5
+
+# Stopping (systemctl stop, a reboot, a spot interruption): SIGTERM goes to pipeline.py alone.
+# It asks train.py to stop through the stop file, waits for the checkpoint to be saved (up to
+# trainer.stop_timeout_seconds, 420 in run_vm.json), then stops the servers and exits 0.
+# Whatever is still alive once it has exited, or after TimeoutStopSec, systemd kills.
+KillSignal=SIGTERM
+KillMode=mixed
+TimeoutStopSec=600
+
+# Ray, twelve Showdown servers and the PSBot engines open many files, sockets and threads.
+LimitNOFILE=1048576
+TasksMax=infinity
+# If the kernel kills one process of the unit for memory, leave the rest to the supervisor: it
+# sees its trainer die, restarts it, and counts that against max_restarts_per_hour.
+OOMPolicy=continue
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,65 @@
+{
+ "model": "gpt-6-luna",
+ "input": "Pokemon Showdown, gen 9 random battle, singles. \"We\" are the side to act; \"foe\" is the opponent. Turn 10. REQUEST: choose a move or a switch. We can Terastallize this turn (our active's Tera type: Steel).\nPOKEMON LEFT: ours 6 of 6; the foe's 5 of 6 (2 not seen yet). Our network's win estimate: 75%.\nOUR ACTIVE: Goodra L85 (Dragon) HP 47%; item none; ability Sap Sipper; Tera type Steel.\nFOE'S ACTIVE: Swalot L90 (Poison) HP 26%; item not shown (likely Leftovers, Assault Vest); ability not shown (possible Liquid Ooze); moves seen: Earthquake, Knock Off; may also have: Gunk Shot, Swords Dance, Protect, Sludge Bomb, Toxic, Clear Smog; can still Terastallize (possible types: Dark, Ground).\nSPEED: we move first (ours 185, the foe's about 150).\nTHREATS: it may carry Swords Dance; its seen moves do up to 29% to our active (Earthquake); a move it may have (Gunk Shot) could do 52%.\nFOE'S BENCH (seen so far): Keldeo-Resolute L79 (Water/Fighting) HP 51%, seen: Hydro Pump, Secret Sword, Leftovers; Lokix L82 (Bug/Dark) HP 100%, seen: First Impression. Fainted: Ariados.\nFIELD: weather none; our side: nothing; foe's side: nothing.\nLAST TURN: our Goodra used Earthquake; foe's Swalot at 26%; foe's Swalot used Knock Off; our Goodra at 47%; our Goodra lost its Assault Vest.\nFOE'S LIKELY NEXT ACTION (our model of opponents): Earthquake 20%, Knock Off 16%, Sludge Bomb 15%, something else 48%.\nADVISORS: mix (our network and search together) would play Draco Meteor. The network alone: Draco Meteor (96%). The search alone: Earthquake (31% of its visits).",
+ "questions": [
+  {
+   "type": "choice",
+   "name": "action",
+   "instructions": "You choose our action in a Pokemon Showdown gen 9 random battle. Pick the action most likely to WIN THE GAME, not only this turn. Each choice lists its facts and two advisors: net = our neural network's probability for that move or switch (it does not judge Terastallizing), search = the share of visits our look-ahead search gave exactly that action, with its average result (0 lost, 1 won). Together (\"mix\") they play at about 2350 Elo: follow them unless the facts give a concrete reason not to. Respect type immunities and abilities: never pick a move that does nothing. Do not stay in on a boosted sweeper without an answer: knock it out, remove its boosts, force it out, or switch to something that takes its hits. Take a safe knockout when one is there. When ahead, convert the lead safely: no needless risk, no low-accuracy move where a sure one does the job. Do not waste Terastallization, and do not switch without a reason: a switch gives the opponent a free turn.",
+   "choices": [
+    {
+     "value": "a0-sludgebomb",
+     "description": "Sludge Bomb: Poison special, power 90, accuracy 100%; 30% poison. Est. 10-12% of the foe's HP (resisted); no KO this turn (about 3 hits). net <1%, search 4% (result 0.50)."
+    },
+    {
+     "value": "a10-sludgebomb-tera",
+     "description": "Sludge Bomb + Terastallize (we become pure Steel): Poison special, power 90, accuracy 100%; 30% poison. Est. 10-12% of the foe's HP (resisted); no KO this turn (about 3 hits). As Steel we take up to 58% from its seen moves (now 29%). net <1%, search <1% (result 0.50)."
+    },
+    {
+     "value": "a1-knockoff",
+     "description": "Knock Off: Dark physical, power 65, accuracy 100%; removes the target's item. Est. 14-16% of the foe's HP; no KO this turn (about 2 hits). net <1%, search 24% (result 0.50)."
+    },
+    {
+     "value": "a11-knockoff-tera",
+     "description": "Knock Off + Terastallize (we become pure Steel): Dark physical, power 65, accuracy 100%; removes the target's item. Est. 14-16% of the foe's HP; no KO this turn (about 2 hits). As Steel we take up to 58% from its seen moves (now 29%). net <1%, search 1% (result 0.50)."
+    },
+    {
+     "value": "a2-dracometeor",
+     "description": "Draco Meteor: Dragon special, power 130, accuracy 90%; then our SpA-2. Est. 43-51% of the foe's HP; KO chance about 90%. net 96%, search 30% (result 0.57). MIX'S PICK."
+    },
+    {
+     "value": "a12-dracometeor-tera",
+     "description": "Draco Meteor + Terastallize (we become pure Steel): Dragon special, power 130, accuracy 90%; then our SpA-2. Est. 43-51% of the foe's HP; KO chance about 90%. As Steel we take up to 58% from its seen moves (now 29%). net 96%, search 0% (result 0.50)."
+    },
+    {
+     "value": "a3-earthquake",
+     "description": "Earthquake: Ground physical, power 100, accuracy 100%. Est. 42-49% of the foe's HP (super effective); KO chance about 100%. net 4%, search 31% (result 0.57)."
+    },
+    {
+     "value": "a13-earthquake-tera",
+     "description": "Earthquake + Terastallize (we become pure Steel): Ground physical, power 100, accuracy 100%. Est. 42-49% of the foe's HP (super effective); KO chance about 100%. As Steel we take up to 58% from its seen moves (now 29%). net 4%, search 1% (result 0.50)."
+    },
+    {
+     "value": "a4-switch-luxray",
+     "description": "Switch to Luxray L88 (Electric) HP 43%, burned; Flame Orb, Guts; moves Supercell Slam, Trailblaze, Throat Chop, Facade. Takes up to 53% from the foe's seen moves (Earthquake). Its best hit on the foe: Supercell Slam, up to 67%. Faster than the foe. net <1%, search <1% (result 0.50)."
+    },
+    {
+     "value": "a5-switch-grumpig",
+     "description": "Switch to Grumpig L92 (Psychic) HP 100%; Leftovers, Thick Fat; moves Earth Power, Nasty Plot, Dazzling Gleam, Psyshock. Takes up to 36% from the foe's seen moves (Knock Off). A move it may have (Gunk Shot) could do 50%. Its best hit on the foe: Psyshock, up to 62%. Faster than the foe. net <1%, search 2% (result 0.50)."
+    },
+    {
+     "value": "a6-switch-entei",
+     "description": "Switch to Entei L78 (Fire) HP 61%; Choice Band, Inner Focus; moves Stone Edge, Flare Blitz, Sacred Fire, Extreme Speed. Takes up to 52% from the foe's seen moves (Earthquake). Its best hit on the foe: Flare Blitz, up to 62%. Faster than the foe. net 0%, search 2% (result 0.50)."
+    },
+    {
+     "value": "a7-switch-hydrapple",
+     "description": "Switch to Hydrapple L83 (Grass/Dragon) HP 100%; Choice Specs, Regenerator; moves Fickle Beam, Earth Power, Draco Meteor, Leaf Storm. Takes up to 13% from the foe's seen moves (Knock Off). A move it may have (Ice Beam) could do 91%. Its best hit on the foe: Draco Meteor, up to 78%. Slower than the foe. net 0%, search 2% (result 0.50)."
+    },
+    {
+     "value": "a8-switch-virizion",
+     "description": "Switch to Virizion L82 (Grass/Fighting) HP 100%; Life Orb, Justified; moves Close Combat, Leaf Blade, Swords Dance, Stone Edge. Takes up to 15% from the foe's seen moves (Earthquake). A move it may have (Gunk Shot) could do 109%. Its best hit on the foe: Stone Edge, up to 27%. Faster than the foe. net 0%, search 1% (result 0.50)."
+    }
+   ]
+  }
+ ]
+}

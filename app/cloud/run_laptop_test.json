@@ -1,0 +1,75 @@
+{
+  "_notes": {
+    "what this is": "A few minutes of the real thing on the Windows laptop, to see pipeline.py drive the real servers and the real train.py through all three phases. Not a training run: every phase is two or three learner updates.",
+    "how to run": ".venv\\Scripts\\python.exe pipeline.py --config cloud\\run_laptop_test.json --run-dir runs\\laptop_test   (stop it with Ctrl+C, or from another terminal: pipeline.py --run-dir runs\\laptop_test --stop). pipeline.py sets PYTHONUTF8=1 and PYTHONUNBUFFERED=1 for the trainer itself. Watch it with: status.py --run-dir runs\\laptop_test. Beside it, in a second terminal: .venv\\Scripts\\python.exe evaluate.py --run-dir runs\\laptop_test --watch --config cloud\\run_laptop_test.json",
+    "repo_dir, python": "Left out: the repo is the folder pipeline.py is in and the interpreter is the one that runs pipeline.py.",
+    "servers": "2 servers on ports 8110 and 8111. NOT 8000 to 8003: those are the owner's own servers, and pipeline.py refuses a port that is already in use.",
+    "train_defaults": "32 battles; minibatch 256 with 3 accumulation steps (the laptop's 8 GB GPU cannot hold 768); an update every 4,096 decisions, the size the laptop runs in TRAINING.md were made with; a checkpoint every 2 updates.",
+    "phases": "imitation 8,192 to 12,288 decisions, warmup 4,096 to 8,192, ppo 12,288. With the PSBot teacher at about 110 decisions a second and 220 after it, about five minutes plus three trainer starts.",
+    "disk": "It leaves about six checkpoints of 219 MB in the run directory (roughly 1.3 GB). Nothing removes them.",
+    "retention": "Off. Nothing is ever deleted on the laptop.",
+    "on_done": "idle: when ppo is done the supervisor stops trainer and servers and waits to be stopped.",
+    "reporting": "The speed figures in status.py come from a sample of the decision counter every 10 seconds here (30 on the box), because the whole run is minutes long.",
+    "eval": "A small evaluation for evaluate.py --watch, same keys as the box's: 10 games against each of two opponents, on its own server on port 8100 (NOT the default 9000, and not a training port). every_hours 0 means every new checkpoint is evaluated as soon as the evaluation before it has finished, so a run of a few minutes gets several; poll_seconds 5 makes it look that often. Foul Play is asked for and is skipped with a note where it is not installed."
+  },
+
+  "showdown_dir": "C:/Users/you/showdown-bot/server",
+
+  "servers": {"count": 2, "base_port": 8110, "heap_mb": 1024, "ready_timeout_seconds": 120},
+
+  "trainer": {"stop_timeout_seconds": 300, "failure_stop_timeout_seconds": 60},
+
+  "train_defaults": {
+    "battles": 32,
+    "rooms_per_pair": 16,
+    "minibatch": 256,
+    "seq_len": 256,
+    "grad_accum": 3,
+    "steps_per_update": 4096,
+    "teacher": "psbot",
+    "save_every": 2,
+    "extra_train_args": []
+  },
+
+  "phases": {
+    "imitation": {
+      "min_decisions": 8192,
+      "max_decisions": 12288,
+      "plateau": {"metric": "ploss", "window_decisions": 4096, "min_improvement_pct": 1.0, "smooth_updates": 1}
+    },
+    "warmup": {
+      "min_decisions": 4096,
+      "max_decisions": 8192,
+      "plateau": {"metric": "vloss", "window_decisions": 4096, "min_improvement_pct": 1.0, "smooth_updates": 1}
+    },
+    "ppo": {"target_decisions": 12288}
+  },
+
+  "watchdog": {
+    "stall_minutes": 5,
+    "startup_grace_minutes": 10,
+    "update_stall_minutes": 10,
+    "max_restarts_per_hour": 4,
+    "backoff_seconds": [10, 30, 60],
+    "max_fruitless_starts": 2,
+    "recycle_hours": 0
+  },
+
+  "disk": {"min_free_gb": 5},
+
+  "retention": {"enabled": false},
+
+  "reporting": {"sample_seconds": 10},
+
+  "on_done": "idle",
+
+  "eval": {
+    "every_hours": 0,
+    "games": 10,
+    "opponents": ["random", "simple"],
+    "port": 8100,
+    "concurrency": 10,
+    "poll_seconds": 5,
+    "foulplay": {"games": 4, "every_hours": 1}
+  }
+}

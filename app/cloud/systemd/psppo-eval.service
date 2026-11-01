@@ -1,0 +1,38 @@
+# ps-ppo evaluator. Installed by cloud/install_services.sh.
+#
+# Watches the run directory and measures new checkpoints against fixed opponents (and Foul Play)
+# on its own Showdown servers, ports 9000 and up. It reads the "eval" section of the same config
+# the trainer uses and appends to runs/main/eval/results.jsonl. It is independent of the
+# training unit: stopping or restarting one does not touch the other.
+#
+#   journalctl -u psppo-eval -f
+#   sudo systemctl stop psppo-eval
+
+[Unit]
+Description=ps-ppo evaluator (evaluate.py --watch: win rate of new checkpoints against fixed opponents)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/ps-ppo
+Environment=PYTHONUTF8=1 PYTHONUNBUFFERED=1
+EnvironmentFile=-/home/ubuntu/psppo.env
+ExecStart=/home/ubuntu/venv/bin/python evaluate.py --run-dir /home/ubuntu/runs/main --watch --config /home/ubuntu/ps-ppo/cloud/run_vm.json
+
+Restart=always
+RestartSec=60
+
+KillSignal=SIGTERM
+KillMode=mixed
+TimeoutStopSec=120
+
+LimitNOFILE=1048576
+TasksMax=infinity
+# Training goes first when the two compete for CPU.
+Nice=5
+
+[Install]
+WantedBy=multi-user.target

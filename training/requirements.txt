@@ -1,0 +1,6 @@
+# Python 3.11 or newer.
+torch>=2.5            # ppo_core.py uses torch.nn.attention.flex_attention
+numpy
+poke-env>=0.15,<0.16
+ray                   # training only (train.py, worker.py, learner.py, inference.py)
+# Node.js 18 or newer is also needed, for heuristic/engine.js (the PSBot heuristic).

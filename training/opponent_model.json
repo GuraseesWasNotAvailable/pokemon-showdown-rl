@@ -1,0 +1,126 @@
+{
+ "version": 1,
+ "fitted": {
+  "train_games": 298,
+  "train_rows": 6215,
+  "replayed_games": 90,
+  "replayed_rows": 2056,
+  "switch_rows": 1940,
+  "target_rows": 325,
+  "move_rows": 1731,
+  "tera_rows": 1218,
+  "tera_turns": 58,
+  "iterations_per_decision_mean": 372707.2,
+  "iterations_per_decision_median": 216000,
+  "replay_file": "replay_train90_ms500.jsonl",
+  "exact_only": false
+ },
+ "switch": {
+  "features": [
+   "bias",
+   "search_logit",
+   "disadvantage",
+   "advantage",
+   "in_after_faint",
+   "in_otherwise",
+   "one_turn",
+   "we_switched",
+   "drop",
+   "boost",
+   "statused"
+  ],
+  "with_search": [
+   -1.1002,
+   0.50444,
+   0.67066,
+   -0.45264,
+   -1.93726,
+   -0.41733,
+   0.20602,
+   0.58505,
+   1.08342,
+   -0.91307,
+   0.24112
+  ],
+  "prior": [
+   -1.68544,
+   0.0,
+   1.03503,
+   -0.51731,
+   -2.48662,
+   -0.46287,
+   0.39895,
+   0.6265,
+   0.73783,
+   -1.64995,
+   0.13591
+  ]
+ },
+ "target": {
+  "w": 0.7,
+  "kappa": 1.0,
+  "gamma": 0.5,
+  "prior_kappa": 1.0
+ },
+ "move": {
+  "T": 1.0,
+  "weights": {
+   "search": 0.68927,
+   "last": 0.05878,
+   "strongest": 0.08781,
+   "shown": 0.02588,
+   "pool": 0.13826
+  },
+  "prior_weights": {
+   "search": 0.0,
+   "last": 0.09484,
+   "strongest": 0.23614,
+   "shown": 0.08438,
+   "pool": 0.5831
+  }
+ },
+ "tera": {
+  "edges": [
+   0.05,
+   0.1,
+   0.2,
+   0.35,
+   0.5
+  ],
+  "rates": [
+   0.01322,
+   0.00917,
+   0.03238,
+   0.05246,
+   0.10247,
+   0.29958
+  ],
+  "base_rate": 0.04554,
+  "band_counts": [
+   [
+    4,
+    327
+   ],
+   [
+    3,
+    367
+   ],
+   [
+    9,
+    282
+   ],
+   [
+    5,
+    94
+   ],
+   [
+    6,
+    53
+   ],
+   [
+    31,
+    95
+   ]
+  ]
+ }
+}

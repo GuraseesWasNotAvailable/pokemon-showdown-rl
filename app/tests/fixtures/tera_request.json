@@ -1,0 +1,213 @@
+{
+ "what": "A move request of gen9randombattle as a local Pokemon Showdown server sent it to the policy player (bench/tera_usage.py --wire). Only the player name is changed.",
+ "request": {
+  "active": [
+   {
+    "moves": [
+     {
+      "move": "Morning Sun",
+      "id": "morningsun",
+      "pp": 8,
+      "maxpp": 8,
+      "target": "self",
+      "disabled": false
+     },
+     {
+      "move": "Alluring Voice",
+      "id": "alluringvoice",
+      "pp": 16,
+      "maxpp": 16,
+      "target": "normal",
+      "disabled": false
+     },
+     {
+      "move": "Psychic",
+      "id": "psychic",
+      "pp": 16,
+      "maxpp": 16,
+      "target": "normal",
+      "disabled": false
+     },
+     {
+      "move": "Shadow Ball",
+      "id": "shadowball",
+      "pp": 24,
+      "maxpp": 24,
+      "target": "normal",
+      "disabled": false
+     }
+    ],
+    "canTerastallize": "Fairy"
+   }
+  ],
+  "side": {
+   "name": "tester",
+   "id": "p1",
+   "pokemon": [
+    {
+     "ident": "p1: Espeon",
+     "details": "Espeon, L84, F",
+     "condition": "246/246",
+     "active": true,
+     "stats": {
+      "atk": 114,
+      "def": 149,
+      "spa": 267,
+      "spd": 208,
+      "spe": 233
+     },
+     "moves": [
+      "morningsun",
+      "alluringvoice",
+      "psychic",
+      "shadowball"
+     ],
+     "baseAbility": "magicbounce",
+     "item": "lifeorb",
+     "pokeball": "pokeball",
+     "ability": "magicbounce",
+     "commanding": false,
+     "reviving": false,
+     "teraType": "Fairy",
+     "terastallized": ""
+    },
+    {
+     "ident": "p1: Leavanny",
+     "details": "Leavanny, L86, M",
+     "condition": "269/269",
+     "active": false,
+     "stats": {
+      "atk": 226,
+      "def": 187,
+      "spa": 170,
+      "spd": 187,
+      "spe": 207
+     },
+     "moves": [
+      "tripleaxel",
+      "stickyweb",
+      "knockoff",
+      "bulletseed"
+     ],
+     "baseAbility": "chlorophyll",
+     "item": "loadeddice",
+     "pokeball": "pokeball",
+     "ability": "chlorophyll",
+     "commanding": false,
+     "reviving": false,
+     "teraType": "Rock",
+     "terastallized": ""
+    },
+    {
+     "ident": "p1: Orthworm",
+     "details": "Orthworm, L88, M",
+     "condition": "266/266",
+     "active": false,
+     "stats": {
+      "atk": 200,
+      "def": 305,
+      "spa": 156,
+      "spd": 147,
+      "spe": 165
+     },
+     "moves": [
+      "shedtail",
+      "bodypress",
+      "heavyslam",
+      "spikes"
+     ],
+     "baseAbility": "eartheater",
+     "item": "leftovers",
+     "pokeball": "pokeball",
+     "ability": "eartheater",
+     "commanding": false,
+     "reviving": false,
+     "teraType": "Ghost",
+     "terastallized": ""
+    },
+    {
+     "ident": "p1: Gogoat",
+     "details": "Gogoat, L88, F",
+     "condition": "360/360",
+     "active": false,
+     "stats": {
+      "atk": 226,
+      "def": 159,
+      "spa": 221,
+      "spd": 193,
+      "spe": 170
+     },
+     "moves": [
+      "rockslide",
+      "hornleech",
+      "bulkup",
+      "milkdrink"
+     ],
+     "baseAbility": "sapsipper",
+     "item": "leftovers",
+     "pokeball": "pokeball",
+     "ability": "sapsipper",
+     "commanding": false,
+     "reviving": false,
+     "teraType": "Water",
+     "terastallized": ""
+    },
+    {
+     "ident": "p1: Scream Tail",
+     "details": "Scream Tail, L84",
+     "condition": "330/330",
+     "active": false,
+     "stats": {
+      "atk": 157,
+      "def": 215,
+      "spa": 157,
+      "spd": 241,
+      "spe": 235
+     },
+     "moves": [
+      "playrough",
+      "protect",
+      "encore",
+      "wish"
+     ],
+     "baseAbility": "protosynthesis",
+     "item": "leftovers",
+     "pokeball": "pokeball",
+     "ability": "protosynthesis",
+     "commanding": false,
+     "reviving": false,
+     "teraType": "Poison",
+     "terastallized": ""
+    },
+    {
+     "ident": "p1: Pelipper",
+     "details": "Pelipper, L86, F",
+     "condition": "243/243",
+     "active": false,
+     "stats": {
+      "atk": 135,
+      "def": 221,
+      "spa": 213,
+      "spd": 170,
+      "spe": 161
+     },
+     "moves": [
+      "hurricane",
+      "hydropump",
+      "roost",
+      "knockoff"
+     ],
+     "baseAbility": "drizzle",
+     "item": "heavydutyboots",
+     "pokeball": "pokeball",
+     "ability": "drizzle",
+     "commanding": false,
+     "reviving": false,
+     "teraType": "Ground",
+     "terastallized": ""
+    }
+   ]
+  },
+  "rqid": 2
+ }
+}

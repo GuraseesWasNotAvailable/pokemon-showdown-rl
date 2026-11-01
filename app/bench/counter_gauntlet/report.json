@@ -1,0 +1,2050 @@
+{
+ "phases": {
+  "su": {
+   "folder": "/home/ubuntu/dev/counter-gauntlet/g/su",
+   "arms": {
+    "mix": {
+     "games": 150,
+     "wins": 147,
+     "losses": 3,
+     "won": {
+      "k": 147,
+      "n": 150,
+      "pct": 98.0,
+      "lo": 94.3,
+      "hi": 99.3
+     },
+     "p1": {
+      "games": 75,
+      "wins": 74
+     },
+     "p2": {
+      "games": 75,
+      "wins": 73
+     },
+     "decisions": 3290,
+     "asked": 3268,
+     "answered": 3268,
+     "fallbacks": 0,
+     "fallback_reasons": {
+      "single": 22
+     },
+     "late": 0,
+     "decision_ms_max": 1587.0,
+     "turns_mean": 20.0,
+     "report_errors": 0,
+     "ms_all": {
+      "n": 3290,
+      "mean": 1193.6,
+      "sd": 107.1,
+      "median": 1209.3,
+      "p95": 1257.8,
+      "p99": 1290.4,
+      "max": 1587.0
+     },
+     "ms_asked": {
+      "n": 3268,
+      "mean": 1201.3,
+      "sd": 52.8,
+      "median": 1209.6,
+      "p95": 1257.9,
+      "p99": 1290.4,
+      "max": 1587.0
+     },
+     "iterations": {
+      "n": 3268,
+      "median": 228000,
+      "mean": 425921
+     }
+    },
+    "mix-counter": {
+     "games": 150,
+     "wins": 143,
+     "losses": 7,
+     "won": {
+      "k": 143,
+      "n": 150,
+      "pct": 95.3,
+      "lo": 90.7,
+      "hi": 97.7
+     },
+     "p1": {
+      "games": 75,
+      "wins": 69
+     },
+     "p2": {
+      "games": 75,
+      "wins": 74
+     },
+     "decisions": 3613,
+     "asked": 3595,
+     "answered": 3594,
+     "fallbacks": 1,
+     "fallback_reasons": {
+      "single": 18,
+      "narrow": 1
+     },
+     "late": 0,
+     "decision_ms_max": 1566.1,
+     "turns_mean": 22.0,
+     "report_errors": 0,
+     "ms_all": {
+      "n": 3613,
+      "mean": 1194.8,
+      "sd": 96.8,
+      "median": 1209.7,
+      "p95": 1253.2,
+      "p99": 1284.1,
+      "max": 1566.1
+     },
+     "ms_asked": {
+      "n": 3595,
+      "mean": 1200.5,
+      "sd": 54.1,
+      "median": 1209.9,
+      "p95": 1253.2,
+      "p99": 1285.6,
+      "max": 1566.1
+     },
+     "iterations": {
+      "n": 3594,
+      "median": 228000,
+      "mean": 408531
+     },
+     "rules": {
+      "totals": {
+       "counter_looked": 1020,
+       "counter_played": 65,
+       "counter_switched": 46,
+       "counter_ko_kept": 245,
+       "counter_had": 57,
+       "other_side_looked": 161,
+       "other_side": 9
+      },
+      "per_game": {
+       "counter_looked": 6.8,
+       "counter_played": 0.43,
+       "counter_switched": 0.31,
+       "counter_ko_kept": 1.63,
+       "counter_had": 0.38,
+       "other_side_looked": 1.07,
+       "other_side": 0.06
+      },
+      "games_looked": 143,
+      "games_changed": 35,
+      "games_changed_won": 31,
+      "games_unchanged": 115,
+      "games_unchanged_won": 112,
+      "changed_decisions": 120,
+      "changed_share_of_decisions": 3.32,
+      "decided": {
+       "kept: no counter can work": 588,
+       "kept: an attack is estimated to knock it out": 245,
+       "played the counter": 65,
+       "kept: mix plays a counter": 50,
+       "switched to a counter": 46,
+       "kept: our active Pokemon has Unaware": 19,
+       "kept: mix switches to a counter": 7
+      },
+      "triggers": {
+       "boosted #": 709,
+       "set up last turn": 230,
+       "set-up read #": 81
+      },
+      "ms_looked": {
+       "n": 1027,
+       "mean": 1202.1,
+       "sd": 47.4,
+       "median": 1209.1,
+       "p95": 1246.6,
+       "p99": 1278.2,
+       "max": 1561.6
+      },
+      "ms_not_looked": {
+       "n": 2586,
+       "mean": 1191.9,
+       "sd": 110.3,
+       "median": 1210.0,
+       "p95": 1254.9,
+       "p99": 1286.3,
+       "max": 1566.1
+      },
+      "losses": [
+       {
+        "battle": "battle-gen9randombattle-278102",
+        "turns": 38,
+        "role": "p1",
+        "changed": [
+         {
+          "turn": 13,
+          "why": "set up last turn: played the counter (phaze roar)",
+          "mix": "switch Tentacruel",
+          "pick": "Roar"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278176",
+        "turns": 21,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278204",
+        "turns": 21,
+        "role": "p1",
+        "changed": [
+         {
+          "turn": 3,
+          "why": "boosted +4: switched to a counter (switch Quagsire holds Unaware, 100% HP)",
+          "mix": "Nasty Plot",
+          "pick": "switch Quagsire"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278239",
+        "turns": 19,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278274",
+        "turns": 27,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278288",
+        "turns": 47,
+        "role": "p1",
+        "changed": [
+         {
+          "turn": 13,
+          "why": "set-up read 53%: switched to a counter (switch Dewgong holds Encore, 100% HP)",
+          "mix": "Air Slash",
+          "pick": "switch Dewgong"
+         },
+         {
+          "turn": 14,
+          "why": "set up last turn: played the counter (encore encore)",
+          "mix": "Triple Axel",
+          "pick": "Encore"
+         },
+         {
+          "turn": 16,
+          "why": "boosted +2: played the counter (encore encore)",
+          "mix": "Triple Axel",
+          "pick": "Encore"
+         },
+         {
+          "turn": 18,
+          "why": "boosted +3: played the counter (encore encore)",
+          "mix": "Triple Axel",
+          "pick": "Encore"
+         },
+         {
+          "turn": 19,
+          "why": "boosted +4: played the counter (encore encore)",
+          "mix": "Triple Axel",
+          "pick": "Encore"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278328",
+        "turns": 27,
+        "role": "p1",
+        "changed": [
+         {
+          "turn": 21,
+          "why": "boosted +2: kept: no counter can work; spd +2 boosted: Gunk Shot does 43% where Dark Pulse does 33%",
+          "mix": "Dark Pulse",
+          "pick": "Gunk Shot"
+         }
+        ]
+       }
+      ],
+      "examples": [
+       {
+        "battle": "battle-gen9randombattle-278058",
+        "turn": 2,
+        "why": "set up last turn: switched to a counter (switch Giratina-Origin holds Dragon Tail, 100% HP)",
+        "text": {
+         "net": "Calm Mind",
+         "search": "Calm Mind",
+         "mix": "Calm Mind",
+         "pick": "switch Giratina-Origin"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278061",
+        "turn": 7,
+        "why": "set-up read 52%: switched to a counter (switch Piloswine holds Roar, 100% HP)",
+        "text": {
+         "net": "Hurricane",
+         "search": "Hurricane",
+         "mix": "Hurricane",
+         "pick": "switch Piloswine"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278086",
+        "turn": 2,
+        "why": "set up last turn: played the counter (phaze roar)",
+        "text": {
+         "net": "Earthquake",
+         "search": "Play Rough",
+         "mix": "Earthquake",
+         "pick": "Roar"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278086",
+        "turn": 9,
+        "why": "set up last turn: played the counter (phaze roar)",
+        "text": {
+         "net": "Earthquake",
+         "search": "Earthquake",
+         "mix": "Earthquake",
+         "pick": "Roar"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278085",
+        "turn": 2,
+        "why": "boosted +2: played the counter (haze haze)",
+        "text": {
+         "net": "Freeze-Dry",
+         "search": "Freeze-Dry",
+         "mix": "Freeze-Dry",
+         "pick": "Haze"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278085",
+        "turn": 21,
+        "why": "boosted +4: kept: an attack is estimated to knock it out; def +4 boosted: Steam Eruption does 48% where Flame Charge does 8%",
+        "text": {
+         "net": "Flame Charge",
+         "search": "Flame Charge",
+         "mix": "Flame Charge",
+         "pick": "Steam Eruption"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278101",
+        "turn": 2,
+        "why": "set up last turn: switched to a counter (switch Articuno holds Haze, 100% HP)",
+        "text": {
+         "net": "Shadow Ball",
+         "search": "Shadow Ball",
+         "mix": "Shadow Ball",
+         "pick": "switch Articuno"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278101",
+        "turn": 16,
+        "why": "set-up read 55%: switched to a counter (switch Articuno holds Haze, 87% HP)",
+        "text": {
+         "net": "Will-O-Wisp",
+         "search": "Will-O-Wisp",
+         "mix": "Will-O-Wisp",
+         "pick": "switch Articuno"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278101",
+        "turn": 17,
+        "why": "set up last turn: played the counter (haze haze)",
+        "text": {
+         "net": "Haze",
+         "search": "Freeze-Dry",
+         "mix": "Freeze-Dry",
+         "pick": "Haze"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278102",
+        "turn": 13,
+        "why": "set up last turn: played the counter (phaze roar)",
+        "text": {
+         "net": "Roar",
+         "search": "switch Tentacruel",
+         "mix": "switch Tentacruel",
+         "pick": "Roar"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278113",
+        "turn": 15,
+        "why": "set up last turn: played the counter (phaze dragontail)",
+        "text": {
+         "net": "switch Rotom-Frost",
+         "search": "Blue Flare",
+         "mix": "switch Rotom-Frost",
+         "pick": "Dragon Tail"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278128",
+        "turn": 16,
+        "why": "set-up read 55%: switched to a counter (switch Azelf holds Encore, 100% HP)",
+        "text": {
+         "net": "Shadow Ball",
+         "search": "Shadow Ball",
+         "mix": "Shadow Ball",
+         "pick": "switch Azelf"
+        }
+       }
+      ]
+     }
+    }
+   },
+   "ties": 0,
+   "stalled": 0,
+   "diff": {
+    "points": -2.7,
+    "lo": -7.5,
+    "hi": 1.7,
+    "se": 0.02067,
+    "se_ac": 0.02228,
+    "z": -1.29
+   },
+   "ms_diff_asked": {
+    "ms": -0.8,
+    "lo": -3.3,
+    "hi": 1.7
+   },
+   "errors": {
+    "counter_errors": 0,
+    "exceptions": 0,
+    "predict_errors": 0,
+    "trackers_broken": 0,
+    "after_end": 0,
+    "audit": {
+     "requests": 6903,
+     "invalid_choices": 0,
+     "unavailable_choices": 4,
+     "other_errors": 0,
+     "exceptions": 0,
+     "forced_random": 0
+    },
+    "inactivity": 0,
+    "forfeit": 0,
+    "start_retries": 1
+   },
+   "helpers": {
+    "decisions": 6863,
+    "decision_errors": 0,
+    "timeouts": 0,
+    "expired": 0,
+    "helper_exits": 0,
+    "hangs": 0,
+    "iterations_per_decision": 416752
+   },
+   "loop_lag": {
+    "checks": 5100,
+    "max_ms": 416.4,
+    "over_500_ms": 0,
+    "late_ms_total": 0.0
+   },
+   "minutes": 22.08,
+   "parallel": 7,
+   "helper_count": 8,
+   "first": "2026-10-08T02:56:45Z",
+   "last": "2026-10-08T03:18:12Z"
+  },
+  "fp": {
+   "folder": "/home/ubuntu/dev/counter-gauntlet/g/fp",
+   "arms": {
+    "mix": {
+     "games": 99,
+     "wins": 60,
+     "losses": 39,
+     "won": {
+      "k": 60,
+      "n": 99,
+      "pct": 60.6,
+      "lo": 50.8,
+      "hi": 69.7
+     },
+     "p1": {
+      "games": 50,
+      "wins": 30
+     },
+     "p2": {
+      "games": 49,
+      "wins": 30
+     },
+     "decisions": 3294,
+     "asked": 3226,
+     "answered": 3226,
+     "fallbacks": 0,
+     "fallback_reasons": {
+      "single": 68
+     },
+     "late": 0,
+     "decision_ms_max": 1530.7,
+     "turns_mean": 29.0,
+     "report_errors": 0,
+     "ms_all": {
+      "n": 3294,
+      "mean": 1174.0,
+      "sd": 171.1,
+      "median": 1206.6,
+      "p95": 1254.8,
+      "p99": 1285.0,
+      "max": 1530.7
+     },
+     "ms_asked": {
+      "n": 3226,
+      "mean": 1197.6,
+      "sd": 55.0,
+      "median": 1207.4,
+      "p95": 1254.9,
+      "p99": 1285.0,
+      "max": 1530.7
+     },
+     "iterations": {
+      "n": 3226,
+      "median": 235000,
+      "mean": 455367
+     }
+    },
+    "mix-counter": {
+     "games": 99,
+     "wins": 68,
+     "losses": 31,
+     "won": {
+      "k": 68,
+      "n": 99,
+      "pct": 68.7,
+      "lo": 59.0,
+      "hi": 77.0
+     },
+     "p1": {
+      "games": 49,
+      "wins": 30
+     },
+     "p2": {
+      "games": 50,
+      "wins": 38
+     },
+     "decisions": 3548,
+     "asked": 3491,
+     "answered": 3491,
+     "fallbacks": 0,
+     "fallback_reasons": {
+      "single": 57
+     },
+     "late": 0,
+     "decision_ms_max": 1519.3,
+     "turns_mean": 31.5,
+     "report_errors": 0,
+     "ms_all": {
+      "n": 3548,
+      "mean": 1180.6,
+      "sd": 152.1,
+      "median": 1208.1,
+      "p95": 1254.2,
+      "p99": 1280.7,
+      "max": 1519.3
+     },
+     "ms_asked": {
+      "n": 3491,
+      "mean": 1198.8,
+      "sd": 52.8,
+      "median": 1208.6,
+      "p95": 1254.7,
+      "p99": 1280.8,
+      "max": 1519.3
+     },
+     "iterations": {
+      "n": 3491,
+      "median": 235000,
+      "mean": 427665
+     },
+     "rules": {
+      "totals": {
+       "counter_looked": 521,
+       "counter_played": 14,
+       "counter_switched": 13,
+       "counter_ko_kept": 130,
+       "counter_had": 20,
+       "other_side_looked": 83,
+       "other_side": 9
+      },
+      "per_game": {
+       "counter_looked": 5.26,
+       "counter_played": 0.14,
+       "counter_switched": 0.13,
+       "counter_ko_kept": 1.31,
+       "counter_had": 0.2,
+       "other_side_looked": 0.84,
+       "other_side": 0.09
+      },
+      "games_looked": 82,
+      "games_changed": 20,
+      "games_changed_won": 15,
+      "games_unchanged": 79,
+      "games_unchanged_won": 53,
+      "changed_decisions": 36,
+      "changed_share_of_decisions": 1.01,
+      "decided": {
+       "kept: no counter can work": 335,
+       "kept: an attack is estimated to knock it out": 130,
+       "kept: mix plays a counter": 17,
+       "played the counter": 14,
+       "switched to a counter": 13,
+       "kept: our active Pokemon has Unaware": 9,
+       "kept: mix switches to a counter": 3
+      },
+      "triggers": {
+       "boosted #": 399,
+       "set up last turn": 78,
+       "set-up read #": 44
+      },
+      "ms_looked": {
+       "n": 532,
+       "mean": 1198.9,
+       "sd": 47.9,
+       "median": 1207.3,
+       "p95": 1247.8,
+       "p99": 1276.5,
+       "max": 1353.9
+      },
+      "ms_not_looked": {
+       "n": 3016,
+       "mean": 1177.4,
+       "sd": 163.6,
+       "median": 1208.3,
+       "p95": 1255.5,
+       "p99": 1281.1,
+       "max": 1519.3
+      },
+      "losses": [
+       {
+        "battle": "battle-gen9randombattle-278350",
+        "turns": 29,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278372",
+        "turns": 36,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278377",
+        "turns": 33,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278388",
+        "turns": 23,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278391",
+        "turns": 28,
+        "role": "p2",
+        "changed": [
+         {
+          "turn": 6,
+          "why": "set up last turn: kept: mix plays a counter; def +1 boosted: Shadow Ball does 20% where Dragon Tail does 13%",
+          "mix": "Dragon Tail",
+          "pick": "Shadow Ball"
+         },
+         {
+          "turn": 7,
+          "why": "boosted +2: kept: mix plays a counter; def +2 boosted: Shadow Ball does 20% where Dragon Tail does 10%",
+          "mix": "Dragon Tail",
+          "pick": "Shadow Ball"
+         },
+         {
+          "turn": 8,
+          "why": "boosted +2: kept: mix plays a counter; def +2 boosted: Shadow Ball does 30% where Dragon Tail does 10%",
+          "mix": "Dragon Tail",
+          "pick": "Shadow Ball"
+         },
+         {
+          "turn": 9,
+          "why": "boosted +2: kept: mix plays a counter; def +2 boosted: Shadow Ball does 30% where Dragon Tail does 10%",
+          "mix": "Dragon Tail",
+          "pick": "Shadow Ball"
+         },
+         {
+          "turn": 10,
+          "why": "boosted +2: kept: mix plays a counter; def +2 boosted: Shadow Ball does 30% where Dragon Tail does 10%",
+          "mix": "Dragon Tail",
+          "pick": "Shadow Ball"
+         },
+         {
+          "turn": 11,
+          "why": "boosted +2: kept: mix plays a counter; def +2 boosted: Shadow Ball does 30% where Dragon Tail does 10%",
+          "mix": "Dragon Tail",
+          "pick": "Shadow Ball"
+         },
+         {
+          "turn": 12,
+          "why": "boosted +2: played the counter (phaze dragontail)",
+          "mix": "Shadow Ball",
+          "pick": "Dragon Tail"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278397",
+        "turns": 23,
+        "role": "p2",
+        "changed": [
+         {
+          "turn": 2,
+          "why": "set up last turn: played the counter (phaze dragontail)",
+          "mix": "switch Slaking",
+          "pick": "Dragon Tail"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278400",
+        "turns": 37,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278404",
+        "turns": 24,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278407",
+        "turns": 24,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278410",
+        "turns": 56,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278412",
+        "turns": 42,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278418",
+        "turns": 21,
+        "role": "p1",
+        "changed": [
+         {
+          "turn": 8,
+          "why": "boosted +2: played the counter (encore encore)",
+          "mix": "Bug Buzz",
+          "pick": "Encore"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278428",
+        "turns": 10,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278433",
+        "turns": 26,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278436",
+        "turns": 29,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278441",
+        "turns": 27,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278442",
+        "turns": 24,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278445",
+        "turns": 26,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278448",
+        "turns": 40,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278451",
+        "turns": 18,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278464",
+        "turns": 40,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278473",
+        "turns": 13,
+        "role": "p2",
+        "changed": [
+         {
+          "turn": 8,
+          "why": "boosted +2: played the counter (haze haze)",
+          "mix": "switch Appletun",
+          "pick": "Haze"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278477",
+        "turns": 25,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278481",
+        "turns": 37,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278486",
+        "turns": 41,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278492",
+        "turns": 32,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278506",
+        "turns": 20,
+        "role": "p1",
+        "changed": [
+         {
+          "turn": 4,
+          "why": "boosted +2: played the counter (haze haze)",
+          "mix": "Recover",
+          "pick": "Haze"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278503",
+        "turns": 42,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278510",
+        "turns": 29,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278518",
+        "turns": 31,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278528",
+        "turns": 17,
+        "role": "p1",
+        "changed": []
+       }
+      ],
+      "examples": [
+       {
+        "battle": "battle-gen9randombattle-278362",
+        "turn": 10,
+        "why": "set-up read 66%: switched to a counter (switch Pachirisu holds Encore, 100% HP)",
+        "text": {
+         "net": "Nasty Plot",
+         "search": "Nasty Plot",
+         "mix": "Nasty Plot",
+         "pick": "switch Pachirisu"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278362",
+        "turn": 38,
+        "why": "set-up read 69%: switched to a counter (switch Pachirisu holds Encore, 85% HP)",
+        "text": {
+         "net": "Earth Power",
+         "search": "Earth Power",
+         "mix": "Earth Power",
+         "pick": "switch Pachirisu"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278391",
+        "turn": 6,
+        "why": "set up last turn: kept: mix plays a counter; def +1 boosted: Shadow Ball does 20% where Dragon Tail does 13%",
+        "text": {
+         "net": "Dragon Tail",
+         "search": "Dragon Tail",
+         "mix": "Dragon Tail",
+         "pick": "Shadow Ball"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278391",
+        "turn": 7,
+        "why": "boosted +2: kept: mix plays a counter; def +2 boosted: Shadow Ball does 20% where Dragon Tail does 10%",
+        "text": {
+         "net": "Dragon Tail",
+         "search": "Dragon Tail",
+         "mix": "Dragon Tail",
+         "pick": "Shadow Ball"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278391",
+        "turn": 8,
+        "why": "boosted +2: kept: mix plays a counter; def +2 boosted: Shadow Ball does 30% where Dragon Tail does 10%",
+        "text": {
+         "net": "Dragon Tail",
+         "search": "Dragon Tail",
+         "mix": "Dragon Tail",
+         "pick": "Shadow Ball"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278391",
+        "turn": 9,
+        "why": "boosted +2: kept: mix plays a counter; def +2 boosted: Shadow Ball does 30% where Dragon Tail does 10%",
+        "text": {
+         "net": "Dragon Tail",
+         "search": "Dragon Tail",
+         "mix": "Dragon Tail",
+         "pick": "Shadow Ball"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278391",
+        "turn": 10,
+        "why": "boosted +2: kept: mix plays a counter; def +2 boosted: Shadow Ball does 30% where Dragon Tail does 10%",
+        "text": {
+         "net": "Shadow Ball",
+         "search": "Dragon Tail",
+         "mix": "Dragon Tail",
+         "pick": "Shadow Ball"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278391",
+        "turn": 11,
+        "why": "boosted +2: kept: mix plays a counter; def +2 boosted: Shadow Ball does 30% where Dragon Tail does 10%",
+        "text": {
+         "net": "Dragon Tail",
+         "search": "Dragon Tail",
+         "mix": "Dragon Tail",
+         "pick": "Shadow Ball"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278391",
+        "turn": 12,
+        "why": "boosted +2: played the counter (phaze dragontail)",
+        "text": {
+         "net": "Shadow Ball",
+         "search": "Dragon Tail",
+         "mix": "Shadow Ball",
+         "pick": "Dragon Tail"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278397",
+        "turn": 2,
+        "why": "set up last turn: played the counter (phaze dragontail)",
+        "text": {
+         "net": "switch Swampert",
+         "search": "switch Slaking",
+         "mix": "switch Slaking",
+         "pick": "Dragon Tail"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278415",
+        "turn": 4,
+        "why": "boosted +2: switched to a counter (switch Skeledirge holds Unaware, 100% HP)",
+        "text": {
+         "net": "Aeroblast",
+         "search": "Aeroblast",
+         "mix": "Aeroblast",
+         "pick": "switch Skeledirge"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278418",
+        "turn": 8,
+        "why": "boosted +2: played the counter (encore encore)",
+        "text": {
+         "net": "Thunder Wave",
+         "search": "Bug Buzz",
+         "mix": "Bug Buzz",
+         "pick": "Encore"
+        }
+       }
+      ]
+     }
+    }
+   },
+   "ties": 0,
+   "stalled": 0,
+   "diff": {
+    "points": 8.1,
+    "lo": -5.2,
+    "hi": 21.0,
+    "se": 0.06771,
+    "se_ac": 0.06717,
+    "z": 1.19
+   },
+   "ms_diff_asked": {
+    "ms": 1.3,
+    "lo": -1.3,
+    "hi": 3.9
+   },
+   "errors": {
+    "counter_errors": 0,
+    "exceptions": 0,
+    "predict_errors": 0,
+    "trackers_broken": 0,
+    "after_end": 0,
+    "audit": {
+     "requests": 6842,
+     "invalid_choices": 0,
+     "unavailable_choices": 1,
+     "other_errors": 0,
+     "exceptions": 0,
+     "forced_random": 0
+    },
+    "inactivity": 0,
+    "forfeit": 0,
+    "start_retries": 1
+   },
+   "helpers": {
+    "decisions": 6717,
+    "decision_errors": 0,
+    "timeouts": 0,
+    "expired": 0,
+    "helper_exits": 0,
+    "hangs": 0,
+    "iterations_per_decision": 440970
+   },
+   "loop_lag": {
+    "checks": 10319,
+    "max_ms": 354.4,
+    "over_500_ms": 0,
+    "late_ms_total": 0.0
+   },
+   "minutes": 43.89,
+   "parallel": 5,
+   "helper_count": 6,
+   "first": "2026-10-08T03:19:28Z",
+   "last": "2026-10-08T04:02:17Z",
+   "foulplay": {
+    "decisions": 6969,
+    "iterations_median": 215000,
+    "iterations_mean": 383542,
+    "below_60000": 186,
+    "ours_median": 235000,
+    "ours_mean": 440970,
+    "ratio_median": 0.91,
+    "ratio_mean": 0.87,
+    "no_order": 0
+   }
+  },
+  "nt": {
+   "folder": "/home/ubuntu/dev/counter-gauntlet/g/nt",
+   "arms": {
+    "mix": {
+     "games": 148,
+     "wins": 75,
+     "losses": 73,
+     "won": {
+      "k": 75,
+      "n": 148,
+      "pct": 50.7,
+      "lo": 42.7,
+      "hi": 58.6
+     },
+     "p1": {
+      "games": 74,
+      "wins": 42
+     },
+     "p2": {
+      "games": 74,
+      "wins": 33
+     },
+     "decisions": 5081,
+     "asked": 4961,
+     "answered": 4961,
+     "fallbacks": 0,
+     "fallback_reasons": {
+      "single": 119,
+      "revive": 1
+     },
+     "late": 0,
+     "decision_ms_max": 1573.0,
+     "turns_mean": 29.7,
+     "report_errors": 0,
+     "ms_all": {
+      "n": 5081,
+      "mean": 1177.1,
+      "sd": 180.0,
+      "median": 1211.1,
+      "p95": 1258.8,
+      "p99": 1288.8,
+      "max": 1573.0
+     },
+     "ms_asked": {
+      "n": 4961,
+      "mean": 1204.0,
+      "sd": 50.5,
+      "median": 1211.8,
+      "p95": 1259.4,
+      "p99": 1288.9,
+      "max": 1573.0
+     },
+     "iterations": {
+      "n": 4961,
+      "median": 229000,
+      "mean": 395256
+     }
+    },
+    "mix-counter": {
+     "games": 147,
+     "wins": 79,
+     "losses": 68,
+     "won": {
+      "k": 79,
+      "n": 147,
+      "pct": 53.7,
+      "lo": 45.7,
+      "hi": 61.6
+     },
+     "p1": {
+      "games": 74,
+      "wins": 43
+     },
+     "p2": {
+      "games": 73,
+      "wins": 36
+     },
+     "decisions": 5026,
+     "asked": 4916,
+     "answered": 4916,
+     "fallbacks": 0,
+     "fallback_reasons": {
+      "single": 110
+     },
+     "late": 0,
+     "decision_ms_max": 1571.0,
+     "turns_mean": 29.7,
+     "report_errors": 0,
+     "ms_all": {
+      "n": 5026,
+      "mean": 1177.9,
+      "sd": 174.9,
+      "median": 1210.7,
+      "p95": 1260.0,
+      "p99": 1291.5,
+      "max": 1571.0
+     },
+     "ms_asked": {
+      "n": 4916,
+      "mean": 1202.8,
+      "sd": 54.0,
+      "median": 1211.3,
+      "p95": 1260.2,
+      "p99": 1291.5,
+      "max": 1571.0
+     },
+     "iterations": {
+      "n": 4916,
+      "median": 228000,
+      "mean": 415398
+     },
+     "rules": {
+      "totals": {
+       "counter_looked": 876,
+       "counter_played": 23,
+       "counter_switched": 16,
+       "counter_ko_kept": 181,
+       "counter_had": 34,
+       "other_side_looked": 144,
+       "other_side": 11
+      },
+      "per_game": {
+       "counter_looked": 5.96,
+       "counter_played": 0.16,
+       "counter_switched": 0.11,
+       "counter_ko_kept": 1.23,
+       "counter_had": 0.23,
+       "other_side_looked": 0.98,
+       "other_side": 0.07
+      },
+      "games_looked": 120,
+      "games_changed": 33,
+      "games_changed_won": 15,
+      "games_unchanged": 114,
+      "games_unchanged_won": 64,
+      "changed_decisions": 50,
+      "changed_share_of_decisions": 0.99,
+      "decided": {
+       "kept: no counter can work": 616,
+       "kept: an attack is estimated to knock it out": 181,
+       "kept: mix plays a counter": 29,
+       "played the counter": 23,
+       "switched to a counter": 16,
+       "kept: our active Pokemon has Unaware": 6,
+       "kept: mix switches to a counter": 5
+      },
+      "triggers": {
+       "boosted #": 673,
+       "set-up read #": 106,
+       "set up last turn": 97
+      },
+      "ms_looked": {
+       "n": 900,
+       "mean": 1195.7,
+       "sd": 58.8,
+       "median": 1208.6,
+       "p95": 1250.3,
+       "p99": 1273.5,
+       "max": 1471.0
+      },
+      "ms_not_looked": {
+       "n": 4126,
+       "mean": 1174.0,
+       "sd": 190.8,
+       "median": 1211.2,
+       "p95": 1261.8,
+       "p99": 1292.7,
+       "max": 1571.0
+      },
+      "losses": [
+       {
+        "battle": "battle-gen9randombattle-278550",
+        "turns": 33,
+        "role": "p1",
+        "changed": [
+         {
+          "turn": 15,
+          "why": "spd +1 boosted: Earthquake does 23% where Hydro Pump does 23%",
+          "mix": "Hydro Pump",
+          "pick": "Earthquake"
+         },
+         {
+          "turn": 16,
+          "why": "spd +1 boosted: Earthquake does 23% where Hydro Pump does 23%",
+          "mix": "Hydro Pump",
+          "pick": "Earthquake"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278547",
+        "turns": 52,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278556",
+        "turns": 40,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278561",
+        "turns": 25,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278570",
+        "turns": 24,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278567",
+        "turns": 34,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278568",
+        "turns": 58,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278584",
+        "turns": 25,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278580",
+        "turns": 46,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278583",
+        "turns": 46,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278592",
+        "turns": 35,
+        "role": "p1",
+        "changed": [
+         {
+          "turn": 4,
+          "why": "set-up read 61%: switched to a counter (switch Scream Tail holds Encore, 100% HP)",
+          "mix": "Heavy Slam + Tera",
+          "pick": "switch Scream Tail"
+         },
+         {
+          "turn": 5,
+          "why": "set up last turn: played the counter (encore encore)",
+          "mix": "Protect",
+          "pick": "Encore"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278599",
+        "turns": 12,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278597",
+        "turns": 33,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278602",
+        "turns": 49,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278614",
+        "turns": 38,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278622",
+        "turns": 31,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278626",
+        "turns": 29,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278638",
+        "turns": 22,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278644",
+        "turns": 17,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278636",
+        "turns": 57,
+        "role": "p1",
+        "changed": [
+         {
+          "turn": 52,
+          "why": "boosted +4: played the counter (sleep sleeppowder)",
+          "mix": "Sludge Wave",
+          "pick": "Sleep Powder"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278647",
+        "turns": 29,
+        "role": "p2",
+        "changed": [
+         {
+          "turn": 23,
+          "why": "set-up read 62%: played the counter (haze haze)",
+          "mix": "Scald",
+          "pick": "Haze"
+         },
+         {
+          "turn": 25,
+          "why": "boosted +2: played the counter (haze haze)",
+          "mix": "Protect",
+          "pick": "Haze"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278652",
+        "turns": 31,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278656",
+        "turns": 24,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278655",
+        "turns": 38,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278662",
+        "turns": 38,
+        "role": "p1",
+        "changed": [
+         {
+          "turn": 29,
+          "why": "boosted +2: played the counter (sleep spore)",
+          "mix": "Shell Smash",
+          "pick": "Spore"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278666",
+        "turns": 47,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278669",
+        "turns": 35,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278672",
+        "turns": 33,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278674",
+        "turns": 25,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278671",
+        "turns": 45,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278677",
+        "turns": 25,
+        "role": "p2",
+        "changed": [
+         {
+          "turn": 2,
+          "why": "boosted +2: played the counter (sleep yawn)",
+          "mix": "Earthquake",
+          "pick": "Yawn"
+         },
+         {
+          "turn": 20,
+          "why": "set up last turn: played the counter (encore encore)",
+          "mix": "Draining Kiss",
+          "pick": "Encore"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278679",
+        "turns": 29,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278684",
+        "turns": 20,
+        "role": "p1",
+        "changed": [
+         {
+          "turn": 15,
+          "why": "boosted +2: played the counter (sleep spore)",
+          "mix": "Giga Drain",
+          "pick": "Spore"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278683",
+        "turns": 29,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278688",
+        "turns": 24,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278691",
+        "turns": 26,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278692",
+        "turns": 23,
+        "role": "p1",
+        "changed": [
+         {
+          "turn": 23,
+          "why": "boosted +6: kept: no counter can work; spd +6 boosted: Earthquake does 42% where Shell Side Arm does 3%",
+          "mix": "Shell Side Arm",
+          "pick": "Earthquake"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278703",
+        "turns": 32,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278709",
+        "turns": 21,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278713",
+        "turns": 37,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278719",
+        "turns": 16,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278723",
+        "turns": 22,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278720",
+        "turns": 63,
+        "role": "p1",
+        "changed": [
+         {
+          "turn": 1,
+          "why": "set-up read 54%: switched to a counter (switch Meganium holds Encore, 100% HP)",
+          "mix": "Shell Smash + Tera",
+          "pick": "switch Meganium"
+         },
+         {
+          "turn": 3,
+          "why": "boosted +2: kept: no counter can work; def +2 boosted: Energy Ball does 37% where Knock Off does 10%",
+          "mix": "Knock Off",
+          "pick": "Energy Ball"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278733",
+        "turns": 40,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278737",
+        "turns": 24,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278739",
+        "turns": 22,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278740",
+        "turns": 31,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278742",
+        "turns": 39,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278750",
+        "turns": 28,
+        "role": "p1",
+        "changed": [
+         {
+          "turn": 24,
+          "why": "boosted +4: played the counter (sleep spore)",
+          "mix": "Rapid Spin",
+          "pick": "Spore"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278753",
+        "turns": 29,
+        "role": "p2",
+        "changed": [
+         {
+          "turn": 9,
+          "why": "set up last turn: played the counter (encore encore)",
+          "mix": "Knock Off",
+          "pick": "Encore"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278763",
+        "turns": 23,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278769",
+        "turns": 33,
+        "role": "p2",
+        "changed": [
+         {
+          "turn": 23,
+          "why": "boosted +2: switched to a counter (switch Volcanion holds Haze, 80% HP)",
+          "mix": "Draco Meteor",
+          "pick": "switch Volcanion"
+         },
+         {
+          "turn": 24,
+          "why": "boosted +3: played the counter (haze haze)",
+          "mix": "Flamethrower",
+          "pick": "Haze"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278775",
+        "turns": 29,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278766",
+        "turns": 60,
+        "role": "p1",
+        "changed": [
+         {
+          "turn": 16,
+          "why": "boosted +2: played the counter (haze haze)",
+          "mix": "Scald",
+          "pick": "Haze"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278785",
+        "turns": 22,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278787",
+        "turns": 19,
+        "role": "p2",
+        "changed": [
+         {
+          "turn": 6,
+          "why": "set up last turn: switched to a counter (switch Hawlucha holds Encore, 100% HP)",
+          "mix": "Stone Edge",
+          "pick": "switch Hawlucha"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278782",
+        "turns": 43,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278791",
+        "turns": 32,
+        "role": "p2",
+        "changed": [
+         {
+          "turn": 20,
+          "why": "spd +1 boosted: Rock Blast does 28% where Hydro Pump does 22%",
+          "mix": "Hydro Pump",
+          "pick": "Rock Blast"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278799",
+        "turns": 27,
+        "role": "p2",
+        "changed": [
+         {
+          "turn": 11,
+          "why": "boosted +2: switched to a counter (switch Hypno holds Encore, 100% HP)",
+          "mix": "switch Kyogre",
+          "pick": "switch Hypno"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278797",
+        "turns": 43,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278803",
+        "turns": 29,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278817",
+        "turns": 27,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278820",
+        "turns": 22,
+        "role": "p1",
+        "changed": [
+         {
+          "turn": 9,
+          "why": "set up last turn: played the counter (encore encore)",
+          "mix": "Population Bomb",
+          "pick": "Encore"
+         }
+        ]
+       },
+       {
+        "battle": "battle-gen9randombattle-278823",
+        "turns": 31,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278827",
+        "turns": 26,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278831",
+        "turns": 25,
+        "role": "p2",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278834",
+        "turns": 16,
+        "role": "p1",
+        "changed": []
+       },
+       {
+        "battle": "battle-gen9randombattle-278837",
+        "turns": 45,
+        "role": "p2",
+        "changed": [
+         {
+          "turn": 9,
+          "why": "set up last turn: switched to a counter (switch Gastrodon holds Clear Smog, 99% HP)",
+          "mix": "Coil",
+          "pick": "switch Gastrodon"
+         }
+        ]
+       }
+      ],
+      "examples": [
+       {
+        "battle": "battle-gen9randombattle-278548",
+        "turn": 2,
+        "why": "boosted +2: switched to a counter (switch Torkoal holds Yawn, 100% HP)",
+        "text": {
+         "net": "Close Combat",
+         "search": "Close Combat",
+         "mix": "Close Combat",
+         "pick": "switch Torkoal"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278550",
+        "turn": 15,
+        "why": "spd +1 boosted: Earthquake does 23% where Hydro Pump does 23%",
+        "text": {
+         "net": "switch Zoroark",
+         "search": "Earthquake",
+         "mix": "Hydro Pump",
+         "pick": "Earthquake"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278550",
+        "turn": 16,
+        "why": "spd +1 boosted: Earthquake does 23% where Hydro Pump does 23%",
+        "text": {
+         "net": "switch Zoroark",
+         "search": "Earthquake",
+         "mix": "Hydro Pump",
+         "pick": "Earthquake"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278575",
+        "turn": 2,
+        "why": "set-up read 56%: switched to a counter (switch Uxie holds Encore, 100% HP)",
+        "text": {
+         "net": "switch Arcanine",
+         "search": "switch Mesprit",
+         "mix": "switch Skarmory",
+         "pick": "switch Uxie"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278592",
+        "turn": 4,
+        "why": "set-up read 61%: switched to a counter (switch Scream Tail holds Encore, 100% HP)",
+        "text": {
+         "net": "Shed Tail",
+         "search": "Body Press + Tera",
+         "mix": "Heavy Slam + Tera",
+         "pick": "switch Scream Tail"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278592",
+        "turn": 5,
+        "why": "set up last turn: played the counter (encore encore)",
+        "text": {
+         "net": "Protect",
+         "search": "Protect",
+         "mix": "Protect",
+         "pick": "Encore"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278612",
+        "turn": 2,
+        "why": "set up last turn: switched to a counter (switch Vaporeon holds Haze, 100% HP)",
+        "text": {
+         "net": "Shell Smash",
+         "search": "Shell Smash",
+         "mix": "Shell Smash",
+         "pick": "switch Vaporeon"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278619",
+        "turn": 15,
+        "why": "set up last turn: switched to a counter (switch Minun holds Encore, 100% HP)",
+        "text": {
+         "net": "Flamethrower",
+         "search": "Flamethrower",
+         "mix": "Flamethrower",
+         "pick": "switch Minun"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278619",
+        "turn": 17,
+        "why": "boosted +2: switched to a counter (switch Minun holds Encore, 75% HP)",
+        "text": {
+         "net": "Calm Mind",
+         "search": "Calm Mind",
+         "mix": "Calm Mind",
+         "pick": "switch Minun"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278635",
+        "turn": 11,
+        "why": "boosted +2: switched to a counter (switch Appletun holds Dragon Tail, 100% HP)",
+        "text": {
+         "net": "Giga Impact",
+         "search": "Giga Impact",
+         "mix": "Giga Impact",
+         "pick": "switch Appletun"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278635",
+        "turn": 12,
+        "why": "boosted +4: played the counter (phaze dragontail)",
+        "text": {
+         "net": "Dragon Tail",
+         "search": "Draco Meteor",
+         "mix": "Draco Meteor",
+         "pick": "Dragon Tail"
+        }
+       },
+       {
+        "battle": "battle-gen9randombattle-278631",
+        "turn": 18,
+        "why": "set-up read 65%: switched to a counter (switch Appletun holds Dragon Tail, 89% HP)",
+        "text": {
+         "net": "U-turn",
+         "search": "U-turn",
+         "mix": "U-turn",
+         "pick": "switch Appletun"
+        }
+       }
+      ]
+     }
+    }
+   },
+   "ties": 0,
+   "stalled": 0,
+   "diff": {
+    "points": 3.1,
+    "lo": -8.2,
+    "hi": 14.3,
+    "se": 0.05814,
+    "se_ac": 0.05775,
+    "z": 0.53
+   },
+   "ms_diff_asked": {
+    "ms": -1.2,
+    "lo": -3.3,
+    "hi": 0.9
+   },
+   "errors": {
+    "counter_errors": 0,
+    "exceptions": 0,
+    "predict_errors": 0,
+    "trackers_broken": 0,
+    "after_end": 0,
+    "audit": {
+     "requests": 10107,
+     "invalid_choices": 0,
+     "unavailable_choices": 4,
+     "other_errors": 0,
+     "exceptions": 0,
+     "forced_random": 0
+    },
+    "inactivity": 0,
+    "forfeit": 0,
+    "start_retries": 1
+   },
+   "helpers": {
+    "decisions": 9877,
+    "decision_errors": 0,
+    "timeouts": 0,
+    "expired": 0,
+    "helper_exits": 0,
+    "hangs": 0,
+    "iterations_per_decision": 405281
+   },
+   "loop_lag": {
+    "checks": 6905,
+    "max_ms": 401.2,
+    "over_500_ms": 0,
+    "late_ms_total": 0.0
+   },
+   "minutes": 29.98,
+   "parallel": 7,
+   "helper_count": 8,
+   "first": "2026-10-08T04:03:03Z",
+   "last": "2026-10-08T04:32:29Z"
+  }
+ },
+ "pooled": {
+  "inverse_variance": {
+   "points": -1.1,
+   "lo": -5.0,
+   "hi": 2.8,
+   "z": -0.54,
+   "weights": {
+    "su": 0.794,
+    "fp": 0.087,
+    "nt": 0.118
+   }
+  },
+  "inverse_variance_normal_se": {
+   "points": -1.3,
+   "lo": -4.9,
+   "hi": 2.4,
+   "z": -0.68,
+   "weights": {
+    "su": 0.82,
+    "fp": 0.076,
+    "nt": 0.104
+   }
+  },
+  "mean_of_opponents": {
+   "points": 2.8,
+   "lo": -3.1,
+   "hi": 8.8
+  }
+ }
+}

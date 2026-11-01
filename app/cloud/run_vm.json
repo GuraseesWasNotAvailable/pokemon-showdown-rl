@@ -1,0 +1,114 @@
+{
+  "_notes": {
+    "what this is": "The full run on the AWS box (g6e.16xlarge: 64 vCPU, one L40S 48 GB). Read by pipeline.py (everything but \"eval\") and by evaluate.py (\"eval\"). Keys that start with \"_\" are comments.",
+    "repo_dir, python, showdown_dir": "The box's layout as cloud/bootstrap.sh builds it. The run directory is given on the command line (/home/ubuntu/runs/main) so a redeploy of the code never touches it.",
+    "servers.count": "TUNE ON THE BOX. 12 to start: one rollout worker per server, each server is one busy Node process, and the PSBot teacher adds a Node engine per worker in the imitation phase. 64 vCPU leaves room for 16 to 20 if the GPU is not the limit.",
+    "servers.base_port": "Training servers on 8000 and up, the evaluator's on 9000 and up, all on 127.0.0.1.",
+    "servers.ready_timeout_seconds": "start_servers.py starts one server a second and each takes several seconds to listen; 5 minutes is generous for 12.",
+    "train_defaults.battles, rooms_per_pair": "TUNE ON THE BOX. 384 battles at 16 rooms a pair is 24 player pairs, 2 per worker. On the laptop 128 battles on 4 servers was the knee; this is 3 times that on 3 times the servers.",
+    "train_defaults.minibatch, seq_len, steps_per_update, grad_accum": "The upstream defaults in config.py (768, 256, 36864, 1). They fit a 48 GB GPU, so no gradient accumulation.",
+    "train_defaults.teacher": "psbot: the imitation phase copies PSBot, which beats SimpleHeuristics in about 92% of games.",
+    "train_defaults.save_every": "A checkpoint every 25 updates is one every 921,600 decisions, roughly every 15 minutes at 1,000 decisions a second. That is the most a crash can lose.",
+    "phases.imitation": "At least 1.5M decisions, at most 4M. In between it ends when the policy loss (mean of 5 updates) improved by less than 1% over the last 600,000 decisions (about 16 updates). save_every 10 because the whole phase is only 40 to 110 updates.",
+    "phases.warmup": "Value head only. At least 500,000 decisions, at most 1.5M; ends when the value loss (mean of 4 updates) improved by less than 2% over the last 300,000 decisions. save_every 5 because the phase is 14 to 41 updates and a crash before the first checkpoint would start it over.",
+    "phases.ppo.target_decisions": "250,000,000 decisions, the upstream figure. About 6,800 updates.",
+    "watchdog.stall_minutes": "No growth in total_steps for 10 minutes means the rollout is stuck (an update on this GPU takes well under a minute, and telemetry pauses only for that long).",
+    "watchdog.startup_grace_minutes": "A start brings Ray up and 12 workers 4 seconds apart; allow 15 minutes before the first decision counts as a stall.",
+    "watchdog.update_stall_minutes": "A failed update is logged and skipped by the learner, so decisions keep coming while nothing is learned. 15 minutes without an update, with at least two updates' worth of decisions collected, is a restart (an update is due about every 40 to 240 seconds).",
+    "watchdog.max_restarts_per_hour, backoff_seconds": "Waits 30 s, 2 min, 5 min, 10 min, 15 min before restarts 1 to 5; the seventh failure inside one hour marks the run failed and stops, so a broken setup cannot burn spot money in a loop.",
+    "watchdog.max_fruitless_starts": "The other way a broken setup loops: slowly. Five starts in a row that never produce a single decision mark the run failed, however far apart they are.",
+    "watchdog.nan_updates_limit": "Three updates in a row with a loss that is not a number: the trainer is terminated without a save, the checkpoints it wrote since are set aside, and it restarts from the one before. A second time within six hours marks the run failed.",
+    "watchdog.telemetry_error_minutes": "train.py failing to reach its learner or inference actor for 5 minutes (a dead actor looks like this) is a restart.",
+    "watchdog.recycle_hours": "A planned clean stop and restart of servers and trainer every 6 hours (about 3 minutes, under 1% of the time). TRAINING.md asks for this until a run of many hours has been watched; set 0 to turn it off.",
+    "trainer.stop_timeout_seconds": "A clean stop waits for the update in progress, then train.py's own 180 s save timeout. The systemd unit's TimeoutStopSec (600) is above this.",
+    "disk.min_free_gb": "Stop cleanly below 15 GB free on the 200 GB disk rather than fail in the middle of writing a checkpoint.",
+    "retention": "Pruning is ON here (a checkpoint is 219 MB; unpruned the run would write about 60 GB). Kept: the newest 8, everything younger than 8 hours (so a checkpoint is still there when the 3- and 6-hourly evaluations reach it), every update divisible by 250 (about 27 over the run), the last checkpoint of each phase, and every checkpoint an evaluation names. Roughly 20 to 30 GB in all.",
+    "on_done": "shutdown: when ppo reaches its target, wait up to 4 hours for the evaluator's eval/final.done, then 5 more minutes, then halt the box so the GPU stops costing money. The disk (and every checkpoint) stays until cloud/teardown.sh.",
+    "eval": "For evaluate.py: every 3 hours, 200 games against each of the four fixed opponents; every 6 hours, 100 games against Foul Play."
+  },
+
+  "repo_dir": "/home/ubuntu/ps-ppo",
+  "python": "/home/ubuntu/venv/bin/python",
+  "showdown_dir": "/home/ubuntu/pokemon-showdown",
+
+  "servers": {
+    "_tune": "count is a starting value, to be tuned on the box",
+    "count": 12,
+    "base_port": 8000,
+    "heap_mb": 2048,
+    "ready_timeout_seconds": 300
+  },
+
+  "trainer": {
+    "stop_timeout_seconds": 420,
+    "failure_stop_timeout_seconds": 120
+  },
+
+  "train_defaults": {
+    "_tune": "battles and rooms_per_pair are starting values, to be tuned on the box",
+    "battles": 384,
+    "rooms_per_pair": 16,
+    "minibatch": 768,
+    "seq_len": 256,
+    "grad_accum": 1,
+    "steps_per_update": 36864,
+    "teacher": "psbot",
+    "save_every": 25,
+    "extra_train_args": []
+  },
+
+  "phases": {
+    "imitation": {
+      "min_decisions": 1500000,
+      "max_decisions": 4000000,
+      "plateau": {"metric": "ploss", "window_decisions": 600000, "min_improvement_pct": 1.0, "smooth_updates": 5},
+      "train": {"save_every": 10},
+      "extra_train_args": []
+    },
+    "warmup": {
+      "min_decisions": 500000,
+      "max_decisions": 1500000,
+      "plateau": {"metric": "vloss", "window_decisions": 300000, "min_improvement_pct": 2.0, "smooth_updates": 4},
+      "train": {"save_every": 5},
+      "extra_train_args": []
+    },
+    "ppo": {
+      "target_decisions": 250000000,
+      "extra_train_args": []
+    }
+  },
+
+  "watchdog": {
+    "stall_minutes": 10,
+    "startup_grace_minutes": 15,
+    "update_stall_minutes": 15,
+    "max_restarts_per_hour": 6,
+    "backoff_seconds": [30, 120, 300, 600, 900],
+    "max_fruitless_starts": 5,
+    "nan_updates_limit": 3,
+    "telemetry_error_minutes": 5,
+    "recycle_hours": 6
+  },
+
+  "disk": {"min_free_gb": 15},
+
+  "retention": {
+    "enabled": true,
+    "keep_newest": 8,
+    "milestone_every": 250,
+    "keep_hours": 8,
+    "check_minutes": 10
+  },
+
+  "on_done": "shutdown",
+  "on_done_wait_minutes": 240,
+  "on_done_grace_minutes": 5,
+  "shutdown_command": ["sudo", "shutdown", "-h", "now"],
+
+  "eval": {
+    "every_hours": 3,
+    "games": 200,
+    "opponents": ["random", "maxpower", "simple", "psbot"],
+    "foulplay": {"games": 100, "every_hours": 6}
+  }
+}

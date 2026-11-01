@@ -1,0 +1,7 @@
+# Files that run on the Linux training box must keep LF line endings on every machine.
+*.sh text eol=lf
+*.service text eol=lf
+*.timer text eol=lf
+# Captured from the Linux box: keep the bytes as they are.
+tests/fixtures/*.log -text
+*.cmd text eol=crlf

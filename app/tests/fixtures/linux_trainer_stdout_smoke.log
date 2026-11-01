@@ -1,0 +1,85 @@
+2026-10-05 07:12:24,770	WARNING authentication_token_setup.py:85 -- Token authentication is enabled for this Ray cluster. Set RAY_AUTH_MODE=disabled to opt out. For more information, see https://docs.ray.io/en/latest/ray-security/token-auth.html
+2026-10-05 07:12:24,770	INFO authentication_token_setup.py:50 -- Generated new authentication token and saved to /home/ubuntu/.ray/auth_token
+2026-10-05 07:12:26,556	INFO worker.py:2033 -- Started a local Ray instance.
+2026-10-05 07:12:27,193 [INFO] mode=imitation teacher=psbot reward=potential ports=[8000, 8001] steps_per_update=4096 minibatch=768x1 seq=256 ckpt=/home/ubuntu/runs/smoke/checkpoints
+2026-10-05 07:12:27,193 [INFO] Initializing Run: Target Battles=32, Total Pairs=2, Workers=2
+[2026-10-05 07:12:27,269 E 5684 5684] core_worker.cc:2297: Actor with class name: 'RolloutWorker' and ID: '0ebda3d3191fc806e32467d701000000' has constructor arguments in the object store and max_restarts > 0. If the arguments in the object store go out of scope or are lost, the actor restart will fail. See https://github.com/ray-project/ray/issues/53727 for more details.
+2026-10-05 07:12:27,269 [INFO] Deployment complete. Distributed 2 rollout workers.
+2026-10-05 07:12:27,269 [INFO] Staggering initialization of actors...
+[36m(LearnerActor pid=5996)[0m [learner] pushed init policy 0 to inference
+2026-10-05 07:12:37,273 [INFO] Training started. Entering telemetry loop.
+2026-10-05 07:12:37,276 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 0, 'episodes': 0, 'steps_in_dataset': 0, 'total_steps': 0}
+[36m(LearnerActor pid=5996)[0m /home/ubuntu/ps-ppo/learner.py:226: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /pytorch/torch/csrc/utils/tensor_numpy.cpp:213.)
+[36m(LearnerActor pid=5996)[0m   obs_all = torch.from_numpy(obs_cat)
+[36m(RolloutWorker pid=5997)[0m Using blocking ray.get inside async actor. This blocks the event loop. Please use `await` on object ref with asyncio.gather if you want to yield execution to the event loop instead.
+2026-10-05 07:12:42,284 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 0, 'episodes': 6, 'steps_in_dataset': 98, 'total_steps': 98}
+2026-10-05 07:12:47,287 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 0, 'episodes': 34, 'steps_in_dataset': 789, 'total_steps': 789}
+2026-10-05 07:12:52,303 [INFO] [Telemetry] ACTIVE: 63 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 0, 'episodes': 63, 'steps_in_dataset': 1739, 'total_steps': 1739}
+2026-10-05 07:12:57,307 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 0, 'episodes': 80, 'steps_in_dataset': 2296, 'total_steps': 2296}
+2026-10-05 07:13:02,320 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 0, 'episodes': 90, 'steps_in_dataset': 2596, 'total_steps': 2596}
+2026-10-05 07:13:07,330 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 0, 'episodes': 118, 'steps_in_dataset': 3372, 'total_steps': 3372}
+2026-10-05 07:13:20,625 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 1, 'episodes': 140, 'steps_in_dataset': 0, 'total_steps': 4136}
+[36m(LearnerActor pid=5996)[0m [learner] upd=1 kl=0.0000 clip=0.000 ent=0.000 vloss=3.954 ploss=2.014 loss=3.992 n_mb=10
+2026-10-05 07:13:25,633 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 1, 'episodes': 208, 'steps_in_dataset': 2017, 'total_steps': 6153}
+2026-10-05 07:13:30,641 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 1, 'episodes': 232, 'steps_in_dataset': 2807, 'total_steps': 6943}
+2026-10-05 07:13:35,645 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 1, 'episodes': 252, 'steps_in_dataset': 3434, 'total_steps': 7570}
+2026-10-05 07:13:40,651 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 1, 'episodes': 274, 'steps_in_dataset': 3996, 'total_steps': 8132}
+[36m(LearnerActor pid=5996)[0m [learner] upd=2 kl=0.0000 clip=0.000 ent=0.000 vloss=3.919 ploss=1.922 loss=3.881 n_mb=10
+2026-10-05 07:13:45,656 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 2, 'episodes': 300, 'steps_in_dataset': 674, 'total_steps': 8908}
+2026-10-05 07:13:50,664 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 2, 'episodes': 310, 'steps_in_dataset': 1012, 'total_steps': 9246}
+2026-10-05 07:13:55,671 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 2, 'episodes': 339, 'steps_in_dataset': 1976, 'total_steps': 10210}
+2026-10-05 07:14:00,682 [INFO] [Telemetry] ACTIVE: 63 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 2, 'episodes': 357, 'steps_in_dataset': 2534, 'total_steps': 10768}
+2026-10-05 07:14:05,689 [INFO] [Telemetry] ACTIVE: 62 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 2, 'episodes': 392, 'steps_in_dataset': 3585, 'total_steps': 11819}
+2026-10-05 07:14:10,701 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 2, 'episodes': 402, 'steps_in_dataset': 4007, 'total_steps': 12241}
+[36m(LearnerActor pid=5996)[0m [learner] upd=3 kl=0.0000 clip=0.000 ent=0.000 vloss=3.780 ploss=1.796 loss=3.686 n_mb=10
+2026-10-05 07:14:15,710 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 3, 'episodes': 420, 'steps_in_dataset': 353, 'total_steps': 12695}
+2026-10-05 07:14:20,717 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 3, 'episodes': 450, 'steps_in_dataset': 1380, 'total_steps': 13722}
+2026-10-05 07:14:25,724 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 3, 'episodes': 472, 'steps_in_dataset': 2047, 'total_steps': 14389}
+2026-10-05 07:14:30,732 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 3, 'episodes': 482, 'steps_in_dataset': 2295, 'total_steps': 14637}
+2026-10-05 07:14:35,744 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 3, 'episodes': 522, 'steps_in_dataset': 3514, 'total_steps': 15856}
+2026-10-05 07:14:40,752 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 3, 'episodes': 538, 'steps_in_dataset': 4047, 'total_steps': 16389}
+[36m(LearnerActor pid=5996)[0m [learner] upd=4 kl=0.0000 clip=0.000 ent=0.000 vloss=3.609 ploss=1.779 loss=3.583 n_mb=10
+2026-10-05 07:14:45,757 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 4, 'episodes': 554, 'steps_in_dataset': 457, 'total_steps': 16907}
+2026-10-05 07:14:50,766 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 4, 'episodes': 572, 'steps_in_dataset': 895, 'total_steps': 17345}
+2026-10-05 07:14:55,771 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 4, 'episodes': 598, 'steps_in_dataset': 1719, 'total_steps': 18169}
+2026-10-05 07:15:00,777 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 4, 'episodes': 614, 'steps_in_dataset': 2294, 'total_steps': 18744}
+2026-10-05 07:15:05,784 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 4, 'episodes': 636, 'steps_in_dataset': 2936, 'total_steps': 19386}
+2026-10-05 07:15:10,800 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 4, 'episodes': 656, 'steps_in_dataset': 3523, 'total_steps': 19973}
+[36m(LearnerActor pid=5996)[0m [learner] upd=5 kl=0.0000 clip=0.000 ent=0.000 vloss=3.473 ploss=1.766 loss=3.503 n_mb=10
+2026-10-05 07:15:15,811 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 5, 'episodes': 674, 'steps_in_dataset': 38, 'total_steps': 20584}
+2026-10-05 07:15:20,813 [INFO] [Telemetry] ACTIVE: 63 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 5, 'episodes': 696, 'steps_in_dataset': 684, 'total_steps': 21230}
+2026-10-05 07:15:25,825 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 5, 'episodes': 714, 'steps_in_dataset': 1231, 'total_steps': 21777}
+2026-10-05 07:15:30,831 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 5, 'episodes': 754, 'steps_in_dataset': 2534, 'total_steps': 23080}
+2026-10-05 07:15:35,838 [INFO] [Telemetry] ACTIVE: 63 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 5, 'episodes': 771, 'steps_in_dataset': 3141, 'total_steps': 23687}
+2026-10-05 07:15:40,845 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 5, 'episodes': 791, 'steps_in_dataset': 3615, 'total_steps': 24161}
+[36m(LearnerActor pid=5996)[0m [learner] upd=6 kl=0.0000 clip=0.000 ent=0.000 vloss=3.448 ploss=1.790 loss=3.515 n_mb=10
+2026-10-05 07:15:46,096 [INFO] [Telemetry] ACTIVE: 60 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 6, 'episodes': 807, 'steps_in_dataset': 0, 'total_steps': 24654}
+2026-10-05 07:15:51,104 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 6, 'episodes': 838, 'steps_in_dataset': 905, 'total_steps': 25559}
+2026-10-05 07:15:56,113 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 6, 'episodes': 857, 'steps_in_dataset': 1442, 'total_steps': 26096}
+2026-10-05 07:16:01,121 [INFO] [Telemetry] ACTIVE: 63 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 6, 'episodes': 896, 'steps_in_dataset': 2632, 'total_steps': 27286}
+2026-10-05 07:16:06,130 [INFO] [Telemetry] ACTIVE: 63 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 6, 'episodes': 913, 'steps_in_dataset': 3210, 'total_steps': 27864}
+2026-10-05 07:16:11,137 [INFO] [Telemetry] ACTIVE: 60 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 6, 'episodes': 936, 'steps_in_dataset': 3759, 'total_steps': 28413}
+[36m(LearnerActor pid=5996)[0m [learner] upd=7 kl=0.0000 clip=0.000 ent=0.000 vloss=3.343 ploss=1.770 loss=3.441 n_mb=10
+2026-10-05 07:16:16,144 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 7, 'episodes': 972, 'steps_in_dataset': 838, 'total_steps': 29608}
+2026-10-05 07:16:21,152 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 7, 'episodes': 988, 'steps_in_dataset': 1297, 'total_steps': 30067}
+2026-10-05 07:16:26,158 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 7, 'episodes': 1010, 'steps_in_dataset': 1899, 'total_steps': 30669}
+2026-10-05 07:16:31,165 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 7, 'episodes': 1034, 'steps_in_dataset': 2631, 'total_steps': 31401}
+2026-10-05 07:16:36,169 [INFO] [Telemetry] ACTIVE: 63 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 7, 'episodes': 1055, 'steps_in_dataset': 3159, 'total_steps': 31929}
+2026-10-05 07:16:41,175 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 7, 'episodes': 1076, 'steps_in_dataset': 3870, 'total_steps': 32640}
+[36m(LearnerActor pid=5996)[0m [learner] upd=8 kl=0.0000 clip=0.000 ent=0.000 vloss=3.374 ploss=1.762 loss=3.449 n_mb=10
+2026-10-05 07:16:46,180 [INFO] [Telemetry] ACTIVE: 63 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 8, 'episodes': 1099, 'steps_in_dataset': 354, 'total_steps': 33234}
+2026-10-05 07:16:51,187 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 8, 'episodes': 1120, 'steps_in_dataset': 960, 'total_steps': 33840}
+2026-10-05 07:16:56,199 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 8, 'episodes': 1138, 'steps_in_dataset': 1513, 'total_steps': 34393}
+2026-10-05 07:17:01,205 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 8, 'episodes': 1158, 'steps_in_dataset': 2209, 'total_steps': 35089}
+2026-10-05 07:17:06,212 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 8, 'episodes': 1184, 'steps_in_dataset': 3076, 'total_steps': 35956}
+2026-10-05 07:17:11,223 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 8, 'episodes': 1202, 'steps_in_dataset': 3670, 'total_steps': 36550}
+[36m(LearnerActor pid=5996)[0m [learner] upd=9 kl=0.0000 clip=0.000 ent=0.000 vloss=3.335 ploss=1.772 loss=3.439 n_mb=10
+2026-10-05 07:17:16,239 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 9, 'episodes': 1223, 'steps_in_dataset': 225, 'total_steps': 37206}
+2026-10-05 07:17:21,245 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 9, 'episodes': 1254, 'steps_in_dataset': 1178, 'total_steps': 38159}
+2026-10-05 07:17:26,251 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 9, 'episodes': 1284, 'steps_in_dataset': 2044, 'total_steps': 39025}
+2026-10-05 07:17:31,264 [INFO] [Telemetry] ACTIVE: 64 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 9, 'episodes': 1298, 'steps_in_dataset': 2469, 'total_steps': 39450}
+2026-10-05 07:17:36,272 [INFO] [Telemetry] ACTIVE: 62 | INFER: {'total_requests': 0, 'avg_batch_size': 0.0, 'model_version': -1} | TRAIN: {'update': 9, 'episodes': 1334, 'steps_in_dataset': 3459, 'total_steps': 40440}
+2026-10-05 07:17:41,275 [INFO] Reached --minutes 5.0. Shutting down.
+[36m(LearnerActor pid=5996)[0m [learner] upd=10 kl=0.0000 clip=0.000 ent=0.000 vloss=3.301 ploss=1.748 loss=3.398 n_mb=10
+2026-10-05 07:17:42,334 [INFO] Saved a final checkpoint: /home/ubuntu/runs/smoke/checkpoints/learner_update_000010.pt
+[36m(RolloutWorker pid=6001)[0m Using blocking ray.get inside async actor. This blocks the event loop. Please use `await` on object ref with asyncio.gather if you want to yield execution to the event loop instead.

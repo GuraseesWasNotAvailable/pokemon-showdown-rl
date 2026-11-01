@@ -1,0 +1,673 @@
+"""
+Learner Actor Module for Distributed Proximal Policy Optimization (PPO).
+
+The LearnerActor is the central training hub. It aggregates experience from 
+remote workers, performs vectorized GAE (Generalized Advantage Estimation), 
+executes PPO updates, and manages the lifecycle of model checkpoints and 
+the self-play league.
+"""
+
+from __future__ import annotations
+
+import asyncio
+import glob
+import logging
+import os
+import random
+import time
+import traceback
+from typing import Dict, List, Optional, Tuple, Final
+
+import ray
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from config import RunConfig
+import ppo_core
+from ppo_core import AsyncEpisodeDataset, gae_from_episode, ppo_update
+
+
+# Configure logging
+logger = logging.getLogger(__name__)
+
+class LearnerActor:
+    """
+    Ray actor responsible for model optimization and weight distribution.
+    
+    Attributes:
+        run_cfg: The master configuration (RunConfig).
+        dataset: CPU-side buffer for asynchronous experience collection.
+        net: The central neural network being optimized.
+        opt: AdamW optimizer with layer-specific parameter groups.
+    """
+
+    def __init__(self, cfg: RunConfig, weight_store: ray.actor.ActorHandle):
+        self.run_cfg = cfg
+        self.cfg = cfg.learner
+        self.weight_store = weight_store
+
+        # Device verification
+        if self.cfg.device.startswith("cuda") and not torch.cuda.is_available():
+            raise RuntimeError("LearnerActor configured for CUDA, but no GPU was detected.")
+
+        self.net: Optional[nn.Module] = None
+        self.opt: Optional[optim.Optimizer] = None
+        self.sched: Optional[optim.lr_scheduler.LambdaLR] = None
+        
+        # CPU-side storage for experience; moved to GPU only during PPO minibatches
+        self.dataset = AsyncEpisodeDataset(act_dim=self.run_cfg.env.act_dim, device="cpu")
+
+        self.update_idx = 0
+        self.total_episodes = 0
+        self.total_steps = 0
+
+        # Backpressure-aware queue for incoming trajectory batches
+        self._q: asyncio.Queue = asyncio.Queue(
+            maxsize=int(self.run_cfg.rollout.learn_max_pending_batches)
+        )
+
+        os.makedirs(self.cfg.ckpt_dir, exist_ok=True)
+
+        # Initialize main loops
+        loop = asyncio.get_event_loop()
+        self._task = loop.create_task(self._loop())
+        self._task.add_done_callback(self._on_loop_done)
+        self._startup_task = loop.create_task(self._maybe_resume_latest())
+        
+        self.ep_counter = 0
+
+    def _init_optimizer(self):
+        """
+        Initializes the optimizer applying gradients and learning rates 
+        based on the active training mode.
+        """
+        if self.net is None:
+            return
+            
+        zones = self.net.get_parameter_zones()
+        active_grads, lr_mults = self._get_zone_config()
+        
+        # 1. APPLY GRADIENT TOGGLES
+        for zone_name, params in zones.items():
+            requires_grad = active_grads[zone_name]
+            for _, p in params:
+                p.requires_grad = requires_grad
+                
+        # 2. BUILD PARAMETER GROUPS WITH WEIGHT DECAY LOGIC
+        wd_val = float(getattr(self.cfg, "weight_decay", 0.01))
+        base_lr = float(self.cfg.lr)
+        
+        param_groups = []
+        master_pairs = []  # (bf16 model param, fp32 master) pairs
+
+        for zone_name, params in zones.items():
+            if not active_grads[zone_name]:
+                continue # Skip frozen zones entirely
+
+            decay, no_decay = [], []
+            for name, p in params:
+                # fp32 master copy: AdamW steps this; it is rounded back into
+                # the bf16 model param after each step (MasterWeightOptimizer).
+                master = p.detach().to(torch.float32).clone()
+                master_pairs.append((p, master))
+
+                # Standard Transformer Rule: No decay on LayerNorm, Bias, or 1D tensors
+                no_decay_condition = (any(x in name for x in ["_emb", "norm"]) or name.endswith(".bias") or p.ndim == 1)
+
+                if no_decay_condition:
+                    no_decay.append(master)
+                else:
+                    decay.append(master)
+                    
+            # Pull the mode-specific multiplier from the grid
+            target_lr = base_lr * lr_mults[zone_name]
+            
+            if decay:
+                param_groups.append({"params": decay, "lr": target_lr, "weight_decay": wd_val, "name": f"{zone_name}_wd"})
+            if no_decay:
+                param_groups.append({"params": no_decay, "lr": target_lr, "weight_decay": 0.0, "name": f"{zone_name}_stable"})
+
+        inner = optim.AdamW(param_groups, eps=1e-5)
+        self.opt = ppo_core.MasterWeightOptimizer(inner, master_pairs)
+        self._init_scheduler()
+        
+    def _get_zone_config(self) -> Tuple[Dict[str, bool], Dict[str, float]]:
+        """Returns mode-aware gradient toggles and LR multipliers."""
+        mode = self.cfg.mode
+        
+        # 1. Gradient toggles (True = Unfrozen, False = Frozen)
+        grad_toggles = {
+            "imitation":               {"embeddings": True,  "subnets": True,  "transformer": True,  "jepa": False, "readout": True,  "pi": True,  "v": True},
+            "imitation_with_jepa":     {"embeddings": True,  "subnets": True,  "transformer": True,  "jepa": True, "readout": True,  "pi": True,  "v": True},
+            "imitation_frozen_backbone":{"embeddings": False, "subnets": False, "transformer": False, "jepa": False, "readout": True,  "pi": True,  "v": True},
+            "jepa_pretraining":        {"embeddings": True,  "subnets": True,  "transformer": True,  "jepa": True,  "readout": False, "pi": False, "v": False},
+            "warmup":                  {"embeddings": False, "subnets": False, "transformer": False, "jepa": False, "readout": False, "pi": False, "v": True},
+            "warmup_with_actor_reset": {"embeddings": False, "subnets": False, "transformer": False, "jepa": False, "readout": False, "pi": True,  "v": True},
+            "ppo_frozen_backbone":     {"embeddings": False, "subnets": False, "transformer": False, "jepa": False, "readout": True,  "pi": True,  "v": True},
+            "ppo":                     {"embeddings": True,  "subnets": True,  "transformer": True,  "jepa": False, "readout": True,  "pi": True,  "v": True},
+            "ppo_with_jepa":           {"embeddings": True,  "subnets": True,  "transformer": True,  "jepa": True, "readout": True,  "pi": True,  "v": True},
+        }
+
+        # 2. LR Multipliers (Mode-Aware)
+        lr_mult_configs = {
+            "imitation":               {"embeddings": 1.0, "subnets": 1.0, "transformer": 1.0, "jepa": 0.0, "readout": 1.0, "pi": 1.0, "v": 1.0},
+            "imitation_frozen_backbone":{"embeddings": 0.0, "subnets": 0.0, "transformer": 0.0, "jepa": 0.0, "readout": 1.0, "pi": 1.0, "v": 2.0},
+            "imitation_with_jepa":     {"embeddings": 1.0, "subnets": 1.0, "transformer": 1.0, "jepa": 1.0, "readout": 1.0, "pi": 1.0, "v": 1.0},
+            "jepa_pretraining":        {"embeddings": 1.0, "subnets": 1.0, "transformer": 1.0, "jepa": 1.0, "readout": 0.0, "pi": 0.0, "v": 0.0},
+            "warmup":                  {"embeddings": 0.0, "subnets": 0.0, "transformer": 0.0, "jepa": 0.0, "readout": 0.0, "pi": 0.0, "v": 1.0},
+            "warmup_with_actor_reset": {"embeddings": 0.0, "subnets": 0.0, "transformer": 0.0, "jepa": 0.0, "readout": 0.0, "pi": 1.0, "v": 1.0},
+            "ppo_frozen_backbone":     {"embeddings": 0.0, "subnets": 0.0, "transformer": 0.0, "jepa": 0.0, "readout": 1.0, "pi": 1.0, "v": 2.0},
+            "ppo_with_jepa":           {"embeddings": 0.5, "subnets": 0.5, "transformer": 0.5, "jepa": 1.0, "readout": 1.0, "pi": 1.0, "v": 2.0},
+            "ppo":                     {"embeddings": 0.1, "subnets": 0.1, "transformer": 0.1, "jepa": 0.0, "readout": 1.0, "pi": 1.0, "v": 2.0},
+        }
+
+        if mode not in grad_toggles or mode not in lr_mult_configs:
+            raise ValueError(f"Unknown training mode configured: {mode}")
+
+        return grad_toggles[mode], lr_mult_configs[mode]
+
+    def _init_scheduler(self):
+        """Sets up the LambdaLR scheduler based on configured warmup and hold steps."""
+        w_steps = int(getattr(self.cfg, "lr_warmup_steps", 0))
+        h_steps = int(getattr(self.cfg, "lr_hold_steps", 0))
+        t_steps = int(getattr(self.cfg, "lr_total_steps", 0))
+
+        def lr_lambda(step: int) -> float:
+            if step < w_steps:
+                return float(step + 1) / float(w_steps)
+            if step < (w_steps + h_steps):
+                return 1.0
+            
+            anneal_start = w_steps + h_steps
+            progress = min(1.0, (step - anneal_start) / max(1, t_steps - anneal_start))
+            return 1.0 / ((8 * progress + 1) ** 1.5)
+
+        # LambdaLR requires a torch Optimizer instance; the wrapper's
+        # param_groups are the same objects, so LR updates flow through.
+        sched_opt = self.opt.inner if isinstance(self.opt, ppo_core.MasterWeightOptimizer) else self.opt
+        self.sched = optim.lr_scheduler.LambdaLR(sched_opt, lr_lambda=lr_lambda)
+        
+    def _enable_compiled_flex_attention(self):
+        """
+        Compile flex_attention only inside the learner actor process.
+        Safe because Ray actors are separate Python processes.
+        """
+        if getattr(ppo_core, "_learner_flex_compiled", False):
+            return
+
+        ppo_core.flex_attention = torch.compile(ppo_core.flex_attention)
+        ppo_core._learner_flex_compiled = True
+        logger.info("LearnerActor enabled compiled flex_attention")
+
+    async def _loop(self):
+        """
+        The main training orchestration loop.
+        
+        Continually consumes packed experience batches, computes advantages, 
+        and triggers PPO updates when sufficient steps are collected.
+        """
+        self._init_if_needed()
+        
+        while True:
+            # item = ("packed", obs, act, logp, val, rew, done, lengths)
+            msgs = [await self._q.get()]
+            while not self._q.empty():
+                try:
+                    msgs.append(self._q.get_nowait())
+                except asyncio.QueueEmpty:
+                    break
+            for msg in msgs:
+                if not isinstance(msg, tuple) or msg[0] != "packed":
+                    continue
+    
+                _, obs_cat, act_cat, logp_cat, val_cat, var_cat, rew_cat, done_cat, lengths = msg
+                
+                # Convert to CPU Tensors
+                obs_all = torch.from_numpy(obs_cat)
+                act_all = torch.from_numpy(act_cat).long()
+                val_all = torch.from_numpy(val_cat).float()
+                var_all = torch.from_numpy(var_cat).float()
+                rew_all = torch.from_numpy(rew_cat).float()
+                done_all = torch.from_numpy(done_cat).float()
+    
+                # Vectorized GAE Calculation
+                adv_chunks, ret_chunks, id_chunks = [], [], []
+                curr = 0
+                for length in lengths.tolist():
+                    end = curr + int(length)
+                    adv, ret = gae_from_episode(
+                        rewards=rew_all[curr:end], 
+                        values=val_all[curr:end], 
+                        dones=done_all[curr:end],
+                        gamma=self.cfg.gamma, 
+                        lam=self.cfg.gae_lambda,
+                        variances=var_all[curr:end] if self.cfg.use_dynamic_lambda else None,
+                        lam_min=self.cfg.dynamic_lambda_min,
+                        lam_max=self.cfg.dynamic_lambda_max,
+                        lam_eps=self.cfg.dynamic_lambda_eps
+                    )
+                    adv_chunks.append(adv)
+                    ret_chunks.append(ret)
+                    # Generate matching Episode IDs for this chunk
+                    id_chunks.append(torch.full((int(length),), self.ep_counter, dtype=torch.long))
+                    
+                    curr = end
+                    self.ep_counter += 1 # Increment unique global episode ID
+    
+                self.dataset.add_steps(
+                    obs_all, act_all, torch.from_numpy(logp_cat), val_all,
+                    torch.cat(adv_chunks), torch.cat(ret_chunks), torch.zeros(len(act_all)),
+                    torch.cat(id_chunks)
+                )
+                
+                self.total_episodes += len(lengths)
+                self.total_steps += len(act_all)
+
+            # Trigger Update
+            if len(self.dataset) >= self.cfg.steps_per_update:
+                await self._perform_update()
+                
+    @staticmethod
+    def _stats_1d(x: torch.Tensor, prefix: str) -> Dict[str, float]:
+        """
+        Basic robust stats for a 1D tensor. Always returns finite floats when possible.
+        """
+        if x is None:
+            return {f"{prefix}_n": 0.0}
+        x = x.detach()
+        if x.numel() == 0:
+            return {f"{prefix}_n": 0.0}
+        x = x.float().view(-1)
+
+        # guard against NaNs/Infs
+        finite = torch.isfinite(x)
+        if not bool(finite.all()):
+            xf = x[finite]
+        else:
+            xf = x
+        if xf.numel() == 0:
+            return {
+                f"{prefix}_n": float(x.numel()),
+                f"{prefix}_finite": 0.0,
+            }
+
+        def q(p: float) -> float:
+            # torch.quantile is fine on GPU/CPU, but convert to float at the end
+            return float(torch.quantile(xf, torch.tensor(p, device=xf.device)))
+
+        out = {
+            f"{prefix}_n": float(x.numel()),
+            f"{prefix}_finite": float(xf.numel()),
+            f"{prefix}_mean": float(xf.mean()),
+            f"{prefix}_std": float(xf.std(unbiased=False)),
+            f"{prefix}_min": float(xf.min()),
+            f"{prefix}_p05": q(0.05),
+            f"{prefix}_p50": q(0.50),
+            f"{prefix}_p95": q(0.95),
+            f"{prefix}_max": float(xf.max()),
+            f"{prefix}_abs_mean": float(xf.abs().mean()),
+            f"{prefix}_abs_max": float(xf.abs().max()),
+        }
+        return out
+
+    @staticmethod
+    def _fmt(d: Dict[str, float], keys) -> str:
+        parts = []
+        for k in keys:
+            v = d.get(k, None)
+            if v is None:
+                continue
+            # ints encoded as float: print without decimals
+            if k.endswith("_n") or k.endswith("_finite"):
+                parts.append(f"{k}={int(v)}")
+            else:
+                parts.append(f"{k}={v:.4g}")
+        return " ".join(parts)
+
+    async def _perform_update(self):
+        """Executes a PPO update and synchronizes weights with Inference."""
+        try:
+            # From here until the line below is printed this actor answers nothing: no
+            # episodes are taken in and no telemetry is given out.
+            started = time.perf_counter()
+
+            # 1. Prepare training data
+            obs_u, act_u, logp_u, val_u, adv_u, ret_u, next_hp_u, ep_ids_u = self.dataset.swap_out_tensor_cache()
+            
+            diag = {}
+            diag.update(self._stats_1d(adv_u, "adv_pre"))
+            diag.update(self._stats_1d(ret_u, "ret"))
+            diag.update(self._stats_1d(val_u, "v_old"))
+            diag.update(self._stats_1d(logp_u, "logp_old"))
+            
+            # 2. Advantage Normalization
+            adv_u = (adv_u - adv_u.mean()) / (adv_u.std() + 1e-8)
+            adv_u = torch.clamp(adv_u, -10.0, 10.0)
+            
+            diag["adv_norm_mean"] = float(adv_u.mean())
+            diag["adv_norm_std"]  = float(adv_u.std(unbiased=False))
+            
+            train_ds = AsyncEpisodeDataset(self.run_cfg.env.act_dim, obs_u.device)
+            train_ds.add_steps(obs_u, act_u, logp_u, val_u, adv_u, ret_u, next_hp_u, ep_ids_u)
+
+            # 3. PPO Update Step
+            stats = ppo_update(
+                net=self.net, opt=self.opt, dataset=train_ds, scheduler=self.sched,
+                mode=self.cfg.mode, target_net=getattr(self, "target_net", None), **self.cfg.ppo_kwargs(),
+                v_min=self.cfg.v_min, v_max=self.cfg.v_max, v_bins=self.cfg.v_bins
+            )
+            
+            if self.cfg.mode in ("jepa_pretraining", "imitation_with_jepa", "ppo_with_jepa"):
+                tau = float(getattr(self.cfg, "jepa_ema_tau", 0.99))
+                with torch.no_grad():
+                    for param, target_param in zip(self.net.parameters(), self.target_net.parameters()):
+                        target_param.data.mul_(tau).add_(param.data, alpha=1.0 - tau)
+
+            self.update_idx += 1
+            
+            # 4. Broadcast weights to Inference (via WeightStore)
+            weights = {k: v.cpu().detach() for k, v in self.net.state_dict().items()}
+            self.weight_store.update.remote(weights, self.update_idx)
+            
+            # Update Temperature
+            new_temp = self.cfg.get_temp(self.total_steps)
+            self.weight_store.set_temp.remote(new_temp)
+
+            logger.info(f"Update {self.update_idx}: Loss={stats.total_loss:.3f}, KL={stats.approx_kl:.4f}")
+            # New keys go at the end: pipeline.py, status.py and bench/throughput.py read this
+            # line by key and were written against the first seven. sec is how long the update
+            # took, data preparation and weight broadcast included. acc is printed in the
+            # imitation modes only: the share of steps where the policy's best legal action
+            # was the teacher's.
+            extra = f" sec={time.perf_counter() - started:.1f}"
+            if stats.acc is not None:
+                extra += f" acc={stats.acc:.3f}"
+            print(
+                f"[learner] upd={self.update_idx} "
+                f"kl={stats.approx_kl:.4f} clip={stats.clip_frac:.3f} ent={stats.entropy:.3f} "
+                f"vloss={stats.v_loss:.3f} ploss={stats.pg_loss:.3f} loss={stats.total_loss:.3f} "
+                f"n_mb={stats.n_mb}" + extra
+            )
+
+            # 5. Checkpointing
+            if self.update_idx % self.cfg.save_every_updates == 0:
+                self._save_checkpoint(self._ckpt_path_for_update(self.update_idx))
+
+        except Exception as e:
+            logger.error(f"PPO Update failed: {e}")
+            self.dataset.clear()
+            
+    def submit_episode(self, tokens, tmask, amask, act, logp, val, rew, done):
+        """Legacy manual submission endpoint."""
+        self._q.put_nowait((tokens, tmask, amask, act, logp, val, rew, done))
+
+    async def save_now(self, path: Optional[str] = None) -> str:
+        """Forces an immediate checkpoint to disk."""
+        if self.net is None or self.opt is None:
+            raise RuntimeError("Cannot save: model not initialized yet.")
+        if getattr(self, "_resume_failed", None):
+            raise RuntimeError(f"Not saving: the resume from {self._resume_failed} failed, so these weights are untrained.")
+        if path is None:
+            path = self._ckpt_path_for_update(self.update_idx)
+        self._save_checkpoint(path)
+        return path
+            
+    async def submit_packed_batch(
+        self,
+        obs_cat: np.ndarray,
+        act_cat: np.ndarray,   # [S]
+        logp_cat: np.ndarray,  # [S]
+        val_cat: np.ndarray,   # [S]
+        var_cat: np.ndarray,   # [S]
+        rew_cat: np.ndarray,   # [S]
+        done_cat: np.ndarray,  # [S]
+        lengths: np.ndarray,   # [B]
+    ):
+        await self._q.put(("packed", obs_cat, act_cat, logp_cat, val_cat, var_cat, rew_cat, done_cat, lengths))
+        return True
+    
+    def _ckpt_path_for_update(self, update_idx: int) -> str:
+        return os.path.join(self.cfg.ckpt_dir, f"learner_update_{update_idx:06d}.pt")
+    
+    def _save_checkpoint(self, path: str):
+        """Serializes model, optimizer, and RNG states to disk."""
+        payload = {
+            "model": self.net.state_dict(),
+            "target_model": self.target_net.state_dict() if hasattr(self, "target_net") else None,
+            "optimizer": self.opt.state_dict(),
+            "scheduler": self.sched.state_dict() if self.sched else None,
+            "update_idx": self.update_idx,
+            "total_steps": self.total_steps,
+            "run_cfg": self.run_cfg.as_dict(),
+            "total_episodes": self.total_episodes,
+            "torch_rng": torch.get_rng_state(),
+            "numpy_rng": np.random.get_state(),
+        }
+        tmp = path + ".tmp"
+        torch.save(payload, tmp)
+        # Make the bytes durable before the file takes its final name. Without this a box that
+        # loses power right after the rename (a cloud spot interruption) can come back with
+        # the new name pointing at a file whose contents never reached the disk: a torn
+        # newest checkpoint, which is the one every resume picks.
+        with open(tmp, "rb+") as f:
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp, path)
+        self._sync_directory(os.path.dirname(os.path.abspath(path)))
+
+    @staticmethod
+    def _sync_directory(directory: str) -> None:
+        """Makes a rename in `directory` durable. POSIX only: Windows cannot open a directory this way."""
+        if os.name != "posix":
+            return
+        try:
+            fd = os.open(directory, os.O_RDONLY)
+        except OSError:
+            return
+        try:
+            os.fsync(fd)
+        except OSError:
+            pass
+        finally:
+            os.close(fd)
+
+    def _init_if_needed(self):
+        """Lazy initialization of the network and optimizer."""
+        if self.net is None:
+            self._enable_compiled_flex_attention()
+            # Model runs in bf16 for fast forward/backward, but the optimizer
+            # steps fp32 master weights (see MasterWeightOptimizer in ppo_core)
+            # so small updates aren't rounded away by bf16.
+            self.net = self.run_cfg.make_model().to(self.cfg.device).train()
+            self.net.enable_bf16_recurrent_path()
+
+            self.target_net = self.run_cfg.make_model().to(self.cfg.device).eval()
+            self.target_net.enable_bf16_recurrent_path()
+            self.target_net.load_state_dict(self.net.state_dict())
+            for p in self.target_net.parameters():
+                p.requires_grad = False
+            
+            self._init_optimizer()
+            
+    def _latest_ckpt_path(self) -> Optional[str]:
+        # The newest file, not the highest number. A change of phase restarts the update count
+        # at zero, so after one the highest-numbered file is the last checkpoint of the phase
+        # before, and resuming from it would throw the new phase's progress away on every restart.
+        paths = glob.glob(os.path.join(self.cfg.ckpt_dir, "learner_update_*.pt"))
+        return max(paths, key=os.path.getmtime) if paths else None
+            
+    async def _maybe_resume_latest(self):
+        # Always initialize so we have *some* weights to publish.
+        self._init_if_needed()
+        assert self.net is not None
+    
+        loaded = False
+        if self.cfg.resume:
+            path = self._latest_ckpt_path()
+            if path:
+                try:
+                    self._load_checkpoint(path)
+                    loaded = True
+                    print(f"[learner] resumed from {path}", flush=True)
+                except Exception as e:
+                    print(f"[learner] resume failed from {path}: {e!r}", flush=True)
+                    # The network now holds fresh weights. A final save on the way out (train.py's
+                    # finally, or a SIGTERM) would write them as the newest checkpoint and the
+                    # next start would resume from nothing. save_now refuses while this is set.
+                    self._resume_failed = path
+    
+        # IMPORTANT: publish policy 0 exactly once at startup.
+        # - If resume worked: pushes resumed weights
+        # - Else: pushes fresh init weights
+        sd_cpu = {k: v.detach().to("cpu") for k, v in self.net.state_dict().items()}
+        self.weight_store.update.remote(sd_cpu, self.update_idx)
+    
+        if loaded:
+            print("[learner] pushed resumed policy 0 to inference", flush=True)
+        else:
+            print("[learner] pushed init policy 0 to inference", flush=True)
+
+    def _on_loop_done(self, task: asyncio.Task):
+        """Safety callback to detect and log crashes in the main training loop."""
+        if not task.cancelled() and task.exception():
+            logger.critical("Learner training loop CRASHED!")
+            traceback.print_exception(None, task.exception(), None)
+            
+    def _load_checkpoint(self, path: str):
+        ckpt = torch.load(path, map_location="cpu", weights_only=False)
+
+        self._init_if_needed()
+
+        assert self.net is not None and self.opt is not None
+        
+        ckpt_mode = ckpt.get("run_cfg", {}).get("learner", {}).get("mode", "unknown")
+        current_mode = self.cfg.mode
+        
+        should_reset_opt = (current_mode != ckpt_mode)
+        model_weights = {k: v for k, v in ckpt["model"].items() if "attn_mask" not in k}
+        
+        # FIX: We intentionally scrubbed attn_mask, so strict must be False
+        self.net.load_state_dict(model_weights, strict=False)
+
+        # Re-seed fp32 masters from the loaded (bf16) weights. If the checkpoint
+        # carries exact fp32 masters, opt.load_state_dict below overwrites these.
+        self.opt.sync_masters_from_model()
+
+        if hasattr(self, "target_net"):
+            if "target_model" in ckpt and ckpt["target_model"] is not None:
+                # Same scrubbing logic for the target net
+                target_weights = {k: v for k, v in ckpt["target_model"].items() if "attn_mask" not in k}
+                self.target_net.load_state_dict(target_weights, strict=False)
+                print("[learner] Loaded target network EMA state from checkpoint.")
+            else:
+                self.target_net.load_state_dict(self.net.state_dict())
+                print("[learner] No target network in ckpt. Synced target_net to main net.")
+
+        if should_reset_opt:
+            print(f"[learner] 🛑 PHASE CHANGE DETECTED ({ckpt_mode} -> {current_mode}).")
+            
+            # --- Reinitialize actor head weights on warmup ---
+            if current_mode == "warmup_with_actor_reset":
+                print("[learner] 🧹 Resetting actor head parameters for warmup phase.")
+                if hasattr(self.net, "pi_head"):
+                    nn.init.normal_(self.net.pi_head.weight, std=0.02)
+                    if hasattr(self.net.pi_head, "bias") and self.net.pi_head.bias is not None:
+                        nn.init.zeros_(self.net.pi_head.bias)
+                # Masters must mirror the freshly reset head weights
+                self.opt.sync_masters_from_model()
+
+            print(f"[learner] 🧹 SKIPPING Optimizer/Scheduler load to enforce fresh LR.")
+            
+            # We treat this as a fresh start, just with pre-trained weights.
+            self.update_idx = 0
+            self.total_episodes = 0
+            self.total_steps = 0
+            return 
+        else:
+            # Normal Resume Logic (Same Phase)
+            try:
+                self.opt.load_state_dict(ckpt["optimizer"])
+                print("[learner] Optimizer state loaded successfully.")
+            except Exception as e:
+                print(f"[learner] Optimizer topology mismatch. Resetting optimizer state.")
+
+            # 1. ALWAYS LOAD SCHEDULER FIRST
+            if self.sched is not None and "scheduler" in ckpt:
+                try:
+                    self.sched.load_state_dict(ckpt["scheduler"])
+                    print("[learner] Scheduler state loaded successfully.")
+                except:
+                    pass
+
+            # 2. APPLY OVERRIDE AFTERWARD (Updated for Dynamic Parameter Zones)
+            try:
+                new_base_lr = float(self.cfg.lr)
+                active_grads, lr_mults = self._get_zone_config()
+
+                for pg in self.opt.param_groups:
+                    group_name = pg.get("name", "")
+                    zone = group_name.split("_")[0] 
+                    
+                    # Only apply LR jump if the zone exists and is active in the current mode
+                    if zone in lr_mults and active_grads.get(zone, False):
+                        target_lr = new_base_lr * lr_mults[zone]
+                        pg["lr"] = target_lr
+                        pg["initial_lr"] = target_lr  # Updates the baseline for the LambdaLR
+                
+                # 3. CRITICAL: Force the scheduler to accept the new baselines
+                if self.sched is not None:
+                    self.sched.base_lrs = [pg["initial_lr"] for pg in self.opt.param_groups]
+                    # The loop above wrote the full rate into every group. The scheduler only
+                    # sets a group's rate when it steps, which is after the next optimizer
+                    # step, so the first step after every restart used to run at the full
+                    # rate: 11 times the scheduled one for a checkpoint 89 steps into the
+                    # warmup, up to 27 times late in the anneal. Put the rate where the
+                    # schedule has it for the step this checkpoint was saved at.
+                    scheduled = [base * fn(self.sched.last_epoch)
+                                 for fn, base in zip(self.sched.lr_lambdas, self.sched.base_lrs)]
+                    for pg, lr in zip(self.opt.param_groups, scheduled):
+                        pg["lr"] = lr
+                    self.sched._last_lr = scheduled
+                    
+                try:
+                    new_wd = float(getattr(self.cfg, "weight_decay", 0.01))
+                    for pg in self.opt.param_groups:
+                        if pg["weight_decay"] > 0:
+                            pg["weight_decay"] = new_wd
+                    print(f"[learner] ⚡ Weight Decay Override: Updated to {new_wd}")
+                except Exception as e:
+                    print(f"[learner] Weight Decay override failed: {e!r}")
+                
+                print(f"[learner] ⚡ LR Jump Applied Dynamically Across Zones. Base LR={new_base_lr:.2g}")
+            except Exception as e:
+                print(f"[learner] LR Jump override failed: {e!r}")
+
+        self.update_idx = int(ckpt.get("update_idx", 0))
+        self.total_episodes = int(ckpt.get("total_episodes", 0))
+        self.total_steps = int(ckpt.get("total_steps", 0))
+        
+        # Push resumed temperature to the WeightStore
+        new_temp = self.cfg.get_temp(self.total_steps)
+        self.weight_store.set_temp.remote(new_temp)
+
+        if "torch_rng" in ckpt:
+            rng = ckpt["torch_rng"]
+            if isinstance(rng, torch.Tensor):
+                rng = rng.detach().to("cpu")
+                if rng.dtype != torch.uint8:
+                    rng = rng.to(torch.uint8)
+            torch.set_rng_state(rng)
+
+        if "numpy_rng" in ckpt:
+            np.random.set_state(ckpt["numpy_rng"])
+        if "python_rng" in ckpt:
+            random.setstate(ckpt["python_rng"])
+            
+    async def get_stats(self) -> dict:
+        return {
+            "update": self.update_idx,
+            "episodes": self.total_episodes,
+            "steps_in_dataset": len(self.dataset),
+            "total_steps": self.total_steps,
+        }

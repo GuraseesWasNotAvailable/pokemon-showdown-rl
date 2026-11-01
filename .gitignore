@@ -1,0 +1,28 @@
+# Python and tools
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# Networks and run data stay out of git (the weights are in the GitHub release)
+*.pt
+*.npz
+*.pkl
+runs/
+checkpoints/
+app/weights/*
+!app/weights/README.md
+
+# Local settings, secrets and caches
+*.settings
+*.settings.*
+.env
+*.pem
+cloud/.state/
+**/cloud/.state/
+**/heuristic/cache/
+**/heuristic/lessons/
+**/heuristic/lessons.json
+
+# Built app
+*.exe

@@ -1,0 +1,155 @@
+{
+ "_about": "Captured 2026-10-06 on the training box with its own Showdown (~/pokemon-showdown, node pokemon-showdown simulate-battle, gen9randombattle, fixed teams, seed 1,2,3,4). p1 leads Imposter Ditto, which Transforms into p2's Garchomp; p1 also has a Garchomp. messages: the battle log as p1 sees it up to turn 1. request: p1's request for turn 1. answers: what the server did with each of three choices sent for that request (p2 chose move 3), each in a fresh battle.",
+ "messages": [
+  "|gametype|singles",
+  "|player|p1|A||",
+  "|player|p2|B||",
+  "|gen|9",
+  "|tier|[Gen 9] Random Battle",
+  "|rule|Species Clause: Limit one of each Pok\u00e9mon",
+  "|rule|HP Percentage Mod: HP is shown in percentages",
+  "|rule|Sleep Clause Mod: Limit one foe put to sleep",
+  "|rule|Illusion Level Mod: Illusion disguises the Pok\u00e9mon's true level",
+  "|",
+  "|teamsize|p1|3",
+  "|teamsize|p2|2",
+  "|start",
+  "|switch|p1a: Ditto|Ditto, L84|200/200",
+  "|switch|p2a: Garchomp|Garchomp, L77, F|100/100",
+  "|-transform|p1a: Ditto|p2a: Garchomp|[from] ability: Imposter",
+  "|turn|1"
+ ],
+ "request": {
+  "active": [
+   {
+    "moves": [
+     {
+      "move": "Earthquake",
+      "id": "earthquake",
+      "pp": 5,
+      "maxpp": 5,
+      "target": "allAdjacent",
+      "disabled": false
+     },
+     {
+      "move": "Outrage",
+      "id": "outrage",
+      "pp": 5,
+      "maxpp": 5,
+      "target": "randomNormal",
+      "disabled": false
+     },
+     {
+      "move": "Swords Dance",
+      "id": "swordsdance",
+      "pp": 5,
+      "maxpp": 5,
+      "target": "self",
+      "disabled": false
+     },
+     {
+      "move": "Stone Edge",
+      "id": "stoneedge",
+      "pp": 5,
+      "maxpp": 5,
+      "target": "normal",
+      "disabled": false
+     }
+    ],
+    "canTerastallize": "Normal"
+   }
+  ],
+  "side": {
+   "name": "A",
+   "id": "p1",
+   "pokemon": [
+    {
+     "ident": "p1: Ditto",
+     "details": "Ditto, L84",
+     "condition": "200/200",
+     "active": true,
+     "stats": {
+      "atk": 111,
+      "def": 111,
+      "spa": 111,
+      "spd": 111,
+      "spe": 111
+     },
+     "moves": [
+      "earthquake",
+      "outrage",
+      "swordsdance",
+      "stoneedge"
+     ],
+     "baseAbility": "imposter",
+     "item": "choicescarf",
+     "pokeball": "pokeball",
+     "ability": "roughskin",
+     "commanding": false,
+     "reviving": false,
+     "teraType": "Normal",
+     "terastallized": ""
+    },
+    {
+     "ident": "p1: Garchomp",
+     "details": "Garchomp, L77, M",
+     "condition": "277/277",
+     "active": false,
+     "stats": {
+      "atk": 229,
+      "def": 175,
+      "spa": 152,
+      "spd": 159,
+      "spe": 185
+     },
+     "moves": [
+      "earthquake",
+      "outrage",
+      "swordsdance",
+      "stoneedge"
+     ],
+     "baseAbility": "roughskin",
+     "item": "leftovers",
+     "pokeball": "pokeball",
+     "ability": "roughskin",
+     "commanding": false,
+     "reviving": false,
+     "teraType": "Steel",
+     "terastallized": ""
+    },
+    {
+     "ident": "p1: Pikachu",
+     "details": "Pikachu, L93, F",
+     "condition": "196/196",
+     "active": false,
+     "stats": {
+      "atk": 136,
+      "def": 108,
+      "spa": 126,
+      "spd": 126,
+      "spe": 201
+     },
+     "moves": [
+      "thunderbolt",
+      "surf",
+      "voltswitch",
+      "grassknot"
+     ],
+     "baseAbility": "static",
+     "item": "lightball",
+     "pokeball": "pokeball",
+     "ability": "static",
+     "commanding": false,
+     "reviving": false,
+     "teraType": "Water",
+     "terastallized": ""
+    }
+   ]
+  }
+ },
+ "answers": {
+  "switch Garchomp": "|error|[Invalid choice] Can't switch: You can't switch to an active Pok\u00e9mon",
+  "switch 2": "|switch|p1a: Garchomp|Garchomp, L77, M|100/100",
+  "switch Pikachu": "|switch|p1a: Pikachu|Pikachu, L93, F|100/100"
+ }
+}

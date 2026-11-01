@@ -1,0 +1,186 @@
+== su  (2026-10-08T02:56:45Z to 2026-10-08T03:18:12Z, 22.08 min, 7 games at a time on 8 helpers)
+  mix          147-3, 98.0% (94.3-99.3)  p1 74/75  p2 73/75  turns 20.0
+  mix-counter  143-7, 95.3% (90.7-97.7)  p1 69/75  p2 74/75  turns 22.0
+  mix-counter minus mix: -2.7 points (-7.5, +1.7), z -1.29
+  mix          decisions 3290, asked 3268, answered 3268, fallbacks 0 {'single': 22}, late 0, decision_ms_max 1587.0, ms (asked) {'n': 3268, 'mean': 1201.3, 'sd': 52.8, 'median': 1209.6, 'p95': 1257.9, 'p99': 1290.4, 'max': 1587.0}
+  mix-counter  decisions 3613, asked 3595, answered 3594, fallbacks 1 {'single': 18, 'narrow': 1}, late 0, decision_ms_max 1566.1, ms (asked) {'n': 3595, 'mean': 1200.5, 'sd': 54.1, 'median': 1209.9, 'p95': 1253.2, 'p99': 1285.6, 'max': 1566.1}
+  ms (asked) mix-counter minus mix: {'ms': -0.8, 'lo': -3.3, 'hi': 1.7}
+  rules: totals {'counter_looked': 1020, 'counter_played': 65, 'counter_switched': 46, 'counter_ko_kept': 245, 'counter_had': 57, 'other_side_looked': 161, 'other_side': 9}; per game {'counter_looked': 6.8, 'counter_played': 0.43, 'counter_switched': 0.31, 'counter_ko_kept': 1.63, 'counter_had': 0.38, 'other_side_looked': 1.07, 'other_side': 0.06}
+         games looked 143, changed 35 (won 31), unchanged 115 (won 112); changed decisions 120 (3.32% of decisions)
+         decided {'kept: no counter can work': 588, 'kept: an attack is estimated to knock it out': 245, 'played the counter': 65, 'kept: mix plays a counter': 50, 'switched to a counter': 46, 'kept: our active Pokemon has Unaware': 19, 'kept: mix switches to a counter': 7}
+         triggers {'boosted #': 709, 'set up last turn': 230, 'set-up read #': 81}
+         ms where the rules looked {'n': 1027, 'mean': 1202.1, 'sd': 47.4, 'median': 1209.1, 'p95': 1246.6, 'p99': 1278.2, 'max': 1561.6}; elsewhere {'n': 2586, 'mean': 1191.9, 'sd': 110.3, 'median': 1210.0, 'p95': 1254.9, 'p99': 1286.3, 'max': 1566.1}
+         lost battle-gen9randombattle-278102 (p1, 38 turns): T13 switch Tentacruel -> Roar (set up last turn: played the counter (phaze roar))
+         lost battle-gen9randombattle-278176 (p1, 21 turns): the rules changed nothing
+         lost battle-gen9randombattle-278204 (p1, 21 turns): T3 Nasty Plot -> switch Quagsire (boosted +4: switched to a counter (switch Quagsire holds Unaware, 100% HP))
+         lost battle-gen9randombattle-278239 (p2, 19 turns): the rules changed nothing
+         lost battle-gen9randombattle-278274 (p1, 27 turns): the rules changed nothing
+         lost battle-gen9randombattle-278288 (p1, 47 turns): T13 Air Slash -> switch Dewgong (set-up read 53%: switched to a counter (switch Dewgong holds Encore, 100% HP)); T14 Triple Axel -> Encore (set up last turn: played the counter (encore encore)); T16 Triple Axel -> Encore (boosted +2: played the counter (encore encore)); T18 Triple Axel -> Encore (boosted +3: played the counter (encore encore)); T19 Triple Axel -> Encore (boosted +4: played the counter (encore encore))
+         lost battle-gen9randombattle-278328 (p1, 27 turns): T21 Dark Pulse -> Gunk Shot (boosted +2: kept: no counter can work; spd +2 boosted: Gunk Shot does 43% where Dark Pulse does 33%)
+         e.g. battle-gen9randombattle-278058 T2: set up last turn: switched to a counter (switch Giratina-Origin holds Dragon Tail, 100% HP)  [{'net': 'Calm Mind', 'search': 'Calm Mind', 'mix': 'Calm Mind', 'pick': 'switch Giratina-Origin'}]
+         e.g. battle-gen9randombattle-278061 T7: set-up read 52%: switched to a counter (switch Piloswine holds Roar, 100% HP)  [{'net': 'Hurricane', 'search': 'Hurricane', 'mix': 'Hurricane', 'pick': 'switch Piloswine'}]
+         e.g. battle-gen9randombattle-278086 T2: set up last turn: played the counter (phaze roar)  [{'net': 'Earthquake', 'search': 'Play Rough', 'mix': 'Earthquake', 'pick': 'Roar'}]
+         e.g. battle-gen9randombattle-278086 T9: set up last turn: played the counter (phaze roar)  [{'net': 'Earthquake', 'search': 'Earthquake', 'mix': 'Earthquake', 'pick': 'Roar'}]
+         e.g. battle-gen9randombattle-278085 T2: boosted +2: played the counter (haze haze)  [{'net': 'Freeze-Dry', 'search': 'Freeze-Dry', 'mix': 'Freeze-Dry', 'pick': 'Haze'}]
+         e.g. battle-gen9randombattle-278085 T21: boosted +4: kept: an attack is estimated to knock it out; def +4 boosted: Steam Eruption does 48% where Flame Charge does 8%  [{'net': 'Flame Charge', 'search': 'Flame Charge', 'mix': 'Flame Charge', 'pick': 'Steam Eruption'}]
+         e.g. battle-gen9randombattle-278101 T2: set up last turn: switched to a counter (switch Articuno holds Haze, 100% HP)  [{'net': 'Shadow Ball', 'search': 'Shadow Ball', 'mix': 'Shadow Ball', 'pick': 'switch Articuno'}]
+         e.g. battle-gen9randombattle-278101 T16: set-up read 55%: switched to a counter (switch Articuno holds Haze, 87% HP)  [{'net': 'Will-O-Wisp', 'search': 'Will-O-Wisp', 'mix': 'Will-O-Wisp', 'pick': 'switch Articuno'}]
+         e.g. battle-gen9randombattle-278101 T17: set up last turn: played the counter (haze haze)  [{'net': 'Haze', 'search': 'Freeze-Dry', 'mix': 'Freeze-Dry', 'pick': 'Haze'}]
+         e.g. battle-gen9randombattle-278102 T13: set up last turn: played the counter (phaze roar)  [{'net': 'Roar', 'search': 'switch Tentacruel', 'mix': 'switch Tentacruel', 'pick': 'Roar'}]
+         e.g. battle-gen9randombattle-278113 T15: set up last turn: played the counter (phaze dragontail)  [{'net': 'switch Rotom-Frost', 'search': 'Blue Flare', 'mix': 'switch Rotom-Frost', 'pick': 'Dragon Tail'}]
+         e.g. battle-gen9randombattle-278128 T16: set-up read 55%: switched to a counter (switch Azelf holds Encore, 100% HP)  [{'net': 'Shadow Ball', 'search': 'Shadow Ball', 'mix': 'Shadow Ball', 'pick': 'switch Azelf'}]
+  errors {'counter_errors': 0, 'exceptions': 0, 'predict_errors': 0, 'trackers_broken': 0, 'after_end': 0, 'audit': {'requests': 6903, 'invalid_choices': 0, 'unavailable_choices': 4, 'other_errors': 0, 'exceptions': 0, 'forced_random': 0}, 'inactivity': 0, 'forfeit': 0, 'start_retries': 1}; ties 0, stalled 0
+  helpers {'decisions': 6863, 'decision_errors': 0, 'timeouts': 0, 'expired': 0, 'helper_exits': 0, 'hangs': 0, 'iterations_per_decision': 416752}; loop lag {'checks': 5100, 'max_ms': 416.4, 'over_500_ms': 0, 'late_ms_total': 0.0}
+== fp  (2026-10-08T03:19:28Z to 2026-10-08T04:02:17Z, 43.89 min, 5 games at a time on 6 helpers)
+  mix          60-39, 60.6% (50.8-69.7)  p1 30/50  p2 30/49  turns 29.0
+  mix-counter  68-31, 68.7% (59.0-77.0)  p1 30/49  p2 38/50  turns 31.5
+  mix-counter minus mix: +8.1 points (-5.2, +21.0), z 1.19
+  mix          decisions 3294, asked 3226, answered 3226, fallbacks 0 {'single': 68}, late 0, decision_ms_max 1530.7, ms (asked) {'n': 3226, 'mean': 1197.6, 'sd': 55.0, 'median': 1207.4, 'p95': 1254.9, 'p99': 1285.0, 'max': 1530.7}
+  mix-counter  decisions 3548, asked 3491, answered 3491, fallbacks 0 {'single': 57}, late 0, decision_ms_max 1519.3, ms (asked) {'n': 3491, 'mean': 1198.8, 'sd': 52.8, 'median': 1208.6, 'p95': 1254.7, 'p99': 1280.8, 'max': 1519.3}
+  ms (asked) mix-counter minus mix: {'ms': 1.3, 'lo': -1.3, 'hi': 3.9}
+  rules: totals {'counter_looked': 521, 'counter_played': 14, 'counter_switched': 13, 'counter_ko_kept': 130, 'counter_had': 20, 'other_side_looked': 83, 'other_side': 9}; per game {'counter_looked': 5.26, 'counter_played': 0.14, 'counter_switched': 0.13, 'counter_ko_kept': 1.31, 'counter_had': 0.2, 'other_side_looked': 0.84, 'other_side': 0.09}
+         games looked 82, changed 20 (won 15), unchanged 79 (won 53); changed decisions 36 (1.01% of decisions)
+         decided {'kept: no counter can work': 335, 'kept: an attack is estimated to knock it out': 130, 'kept: mix plays a counter': 17, 'played the counter': 14, 'switched to a counter': 13, 'kept: our active Pokemon has Unaware': 9, 'kept: mix switches to a counter': 3}
+         triggers {'boosted #': 399, 'set up last turn': 78, 'set-up read #': 44}
+         ms where the rules looked {'n': 532, 'mean': 1198.9, 'sd': 47.9, 'median': 1207.3, 'p95': 1247.8, 'p99': 1276.5, 'max': 1353.9}; elsewhere {'n': 3016, 'mean': 1177.4, 'sd': 163.6, 'median': 1208.3, 'p95': 1255.5, 'p99': 1281.1, 'max': 1519.3}
+         lost battle-gen9randombattle-278350 (p1, 29 turns): the rules changed nothing
+         lost battle-gen9randombattle-278372 (p1, 36 turns): the rules changed nothing
+         lost battle-gen9randombattle-278377 (p2, 33 turns): the rules changed nothing
+         lost battle-gen9randombattle-278388 (p1, 23 turns): the rules changed nothing
+         lost battle-gen9randombattle-278391 (p2, 28 turns): T6 Dragon Tail -> Shadow Ball (set up last turn: kept: mix plays a counter; def +1 boosted: Shadow Ball does 20% where Dragon Tail does 13%); T7 Dragon Tail -> Shadow Ball (boosted +2: kept: mix plays a counter; def +2 boosted: Shadow Ball does 20% where Dragon Tail does 10%); T8 Dragon Tail -> Shadow Ball (boosted +2: kept: mix plays a counter; def +2 boosted: Shadow Ball does 30% where Dragon Tail does 10%); T9 Dragon Tail -> Shadow Ball (boosted +2: kept: mix plays a counter; def +2 boosted: Shadow Ball does 30% where Dragon Tail does 10%); T10 Dragon Tail -> Shadow Ball (boosted +2: kept: mix plays a counter; def +2 boosted: Shadow Ball does 30% where Dragon Tail does 10%); T11 Dragon Tail -> Shadow Ball (boosted +2: kept: mix plays a counter; def +2 boosted: Shadow Ball does 30% where Dragon Tail does 10%); T12 Shadow Ball -> Dragon Tail (boosted +2: played the counter (phaze dragontail))
+         lost battle-gen9randombattle-278397 (p2, 23 turns): T2 switch Slaking -> Dragon Tail (set up last turn: played the counter (phaze dragontail))
+         lost battle-gen9randombattle-278400 (p1, 37 turns): the rules changed nothing
+         lost battle-gen9randombattle-278404 (p1, 24 turns): the rules changed nothing
+         lost battle-gen9randombattle-278407 (p2, 24 turns): the rules changed nothing
+         lost battle-gen9randombattle-278410 (p1, 56 turns): the rules changed nothing
+         lost battle-gen9randombattle-278412 (p1, 42 turns): the rules changed nothing
+         lost battle-gen9randombattle-278418 (p1, 21 turns): T8 Bug Buzz -> Encore (boosted +2: played the counter (encore encore))
+         lost battle-gen9randombattle-278428 (p1, 10 turns): the rules changed nothing
+         lost battle-gen9randombattle-278433 (p2, 26 turns): the rules changed nothing
+         lost battle-gen9randombattle-278436 (p1, 29 turns): the rules changed nothing
+         lost battle-gen9randombattle-278441 (p2, 27 turns): the rules changed nothing
+         lost battle-gen9randombattle-278442 (p1, 24 turns): the rules changed nothing
+         lost battle-gen9randombattle-278445 (p2, 26 turns): the rules changed nothing
+         lost battle-gen9randombattle-278448 (p1, 40 turns): the rules changed nothing
+         lost battle-gen9randombattle-278451 (p2, 18 turns): the rules changed nothing
+         lost battle-gen9randombattle-278464 (p1, 40 turns): the rules changed nothing
+         lost battle-gen9randombattle-278473 (p2, 13 turns): T8 switch Appletun -> Haze (boosted +2: played the counter (haze haze))
+         lost battle-gen9randombattle-278477 (p2, 25 turns): the rules changed nothing
+         lost battle-gen9randombattle-278481 (p2, 37 turns): the rules changed nothing
+         lost battle-gen9randombattle-278486 (p1, 41 turns): the rules changed nothing
+         lost battle-gen9randombattle-278492 (p1, 32 turns): the rules changed nothing
+         lost battle-gen9randombattle-278506 (p1, 20 turns): T4 Recover -> Haze (boosted +2: played the counter (haze haze))
+         lost battle-gen9randombattle-278503 (p2, 42 turns): the rules changed nothing
+         lost battle-gen9randombattle-278510 (p1, 29 turns): the rules changed nothing
+         lost battle-gen9randombattle-278518 (p1, 31 turns): the rules changed nothing
+         lost battle-gen9randombattle-278528 (p1, 17 turns): the rules changed nothing
+         e.g. battle-gen9randombattle-278362 T10: set-up read 66%: switched to a counter (switch Pachirisu holds Encore, 100% HP)  [{'net': 'Nasty Plot', 'search': 'Nasty Plot', 'mix': 'Nasty Plot', 'pick': 'switch Pachirisu'}]
+         e.g. battle-gen9randombattle-278362 T38: set-up read 69%: switched to a counter (switch Pachirisu holds Encore, 85% HP)  [{'net': 'Earth Power', 'search': 'Earth Power', 'mix': 'Earth Power', 'pick': 'switch Pachirisu'}]
+         e.g. battle-gen9randombattle-278391 T6: set up last turn: kept: mix plays a counter; def +1 boosted: Shadow Ball does 20% where Dragon Tail does 13%  [{'net': 'Dragon Tail', 'search': 'Dragon Tail', 'mix': 'Dragon Tail', 'pick': 'Shadow Ball'}]
+         e.g. battle-gen9randombattle-278391 T7: boosted +2: kept: mix plays a counter; def +2 boosted: Shadow Ball does 20% where Dragon Tail does 10%  [{'net': 'Dragon Tail', 'search': 'Dragon Tail', 'mix': 'Dragon Tail', 'pick': 'Shadow Ball'}]
+         e.g. battle-gen9randombattle-278391 T8: boosted +2: kept: mix plays a counter; def +2 boosted: Shadow Ball does 30% where Dragon Tail does 10%  [{'net': 'Dragon Tail', 'search': 'Dragon Tail', 'mix': 'Dragon Tail', 'pick': 'Shadow Ball'}]
+         e.g. battle-gen9randombattle-278391 T9: boosted +2: kept: mix plays a counter; def +2 boosted: Shadow Ball does 30% where Dragon Tail does 10%  [{'net': 'Dragon Tail', 'search': 'Dragon Tail', 'mix': 'Dragon Tail', 'pick': 'Shadow Ball'}]
+         e.g. battle-gen9randombattle-278391 T10: boosted +2: kept: mix plays a counter; def +2 boosted: Shadow Ball does 30% where Dragon Tail does 10%  [{'net': 'Shadow Ball', 'search': 'Dragon Tail', 'mix': 'Dragon Tail', 'pick': 'Shadow Ball'}]
+         e.g. battle-gen9randombattle-278391 T11: boosted +2: kept: mix plays a counter; def +2 boosted: Shadow Ball does 30% where Dragon Tail does 10%  [{'net': 'Dragon Tail', 'search': 'Dragon Tail', 'mix': 'Dragon Tail', 'pick': 'Shadow Ball'}]
+         e.g. battle-gen9randombattle-278391 T12: boosted +2: played the counter (phaze dragontail)  [{'net': 'Shadow Ball', 'search': 'Dragon Tail', 'mix': 'Shadow Ball', 'pick': 'Dragon Tail'}]
+         e.g. battle-gen9randombattle-278397 T2: set up last turn: played the counter (phaze dragontail)  [{'net': 'switch Swampert', 'search': 'switch Slaking', 'mix': 'switch Slaking', 'pick': 'Dragon Tail'}]
+         e.g. battle-gen9randombattle-278415 T4: boosted +2: switched to a counter (switch Skeledirge holds Unaware, 100% HP)  [{'net': 'Aeroblast', 'search': 'Aeroblast', 'mix': 'Aeroblast', 'pick': 'switch Skeledirge'}]
+         e.g. battle-gen9randombattle-278418 T8: boosted +2: played the counter (encore encore)  [{'net': 'Thunder Wave', 'search': 'Bug Buzz', 'mix': 'Bug Buzz', 'pick': 'Encore'}]
+  errors {'counter_errors': 0, 'exceptions': 0, 'predict_errors': 0, 'trackers_broken': 0, 'after_end': 0, 'audit': {'requests': 6842, 'invalid_choices': 0, 'unavailable_choices': 1, 'other_errors': 0, 'exceptions': 0, 'forced_random': 0}, 'inactivity': 0, 'forfeit': 0, 'start_retries': 1}; ties 0, stalled 0
+  helpers {'decisions': 6717, 'decision_errors': 0, 'timeouts': 0, 'expired': 0, 'helper_exits': 0, 'hangs': 0, 'iterations_per_decision': 440970}; loop lag {'checks': 10319, 'max_ms': 354.4, 'over_500_ms': 0, 'late_ms_total': 0.0}
+  Foul Play {'decisions': 6969, 'iterations_median': 215000, 'iterations_mean': 383542, 'below_60000': 186, 'ours_median': 235000, 'ours_mean': 440970, 'ratio_median': 0.91, 'ratio_mean': 0.87, 'no_order': 0}
+== nt  (2026-10-08T04:03:03Z to 2026-10-08T04:32:29Z, 29.98 min, 7 games at a time on 8 helpers)
+  mix          75-73, 50.7% (42.7-58.6)  p1 42/74  p2 33/74  turns 29.7
+  mix-counter  79-68, 53.7% (45.7-61.6)  p1 43/74  p2 36/73  turns 29.7
+  mix-counter minus mix: +3.1 points (-8.2, +14.3), z 0.53
+  mix          decisions 5081, asked 4961, answered 4961, fallbacks 0 {'single': 119, 'revive': 1}, late 0, decision_ms_max 1573.0, ms (asked) {'n': 4961, 'mean': 1204.0, 'sd': 50.5, 'median': 1211.8, 'p95': 1259.4, 'p99': 1288.9, 'max': 1573.0}
+  mix-counter  decisions 5026, asked 4916, answered 4916, fallbacks 0 {'single': 110}, late 0, decision_ms_max 1571.0, ms (asked) {'n': 4916, 'mean': 1202.8, 'sd': 54.0, 'median': 1211.3, 'p95': 1260.2, 'p99': 1291.5, 'max': 1571.0}
+  ms (asked) mix-counter minus mix: {'ms': -1.2, 'lo': -3.3, 'hi': 0.9}
+  rules: totals {'counter_looked': 876, 'counter_played': 23, 'counter_switched': 16, 'counter_ko_kept': 181, 'counter_had': 34, 'other_side_looked': 144, 'other_side': 11}; per game {'counter_looked': 5.96, 'counter_played': 0.16, 'counter_switched': 0.11, 'counter_ko_kept': 1.23, 'counter_had': 0.23, 'other_side_looked': 0.98, 'other_side': 0.07}
+         games looked 120, changed 33 (won 15), unchanged 114 (won 64); changed decisions 50 (0.99% of decisions)
+         decided {'kept: no counter can work': 616, 'kept: an attack is estimated to knock it out': 181, 'kept: mix plays a counter': 29, 'played the counter': 23, 'switched to a counter': 16, 'kept: our active Pokemon has Unaware': 6, 'kept: mix switches to a counter': 5}
+         triggers {'boosted #': 673, 'set-up read #': 106, 'set up last turn': 97}
+         ms where the rules looked {'n': 900, 'mean': 1195.7, 'sd': 58.8, 'median': 1208.6, 'p95': 1250.3, 'p99': 1273.5, 'max': 1471.0}; elsewhere {'n': 4126, 'mean': 1174.0, 'sd': 190.8, 'median': 1211.2, 'p95': 1261.8, 'p99': 1292.7, 'max': 1571.0}
+         lost battle-gen9randombattle-278550 (p1, 33 turns): T15 Hydro Pump -> Earthquake (spd +1 boosted: Earthquake does 23% where Hydro Pump does 23%); T16 Hydro Pump -> Earthquake (spd +1 boosted: Earthquake does 23% where Hydro Pump does 23%)
+         lost battle-gen9randombattle-278547 (p2, 52 turns): the rules changed nothing
+         lost battle-gen9randombattle-278556 (p1, 40 turns): the rules changed nothing
+         lost battle-gen9randombattle-278561 (p2, 25 turns): the rules changed nothing
+         lost battle-gen9randombattle-278570 (p1, 24 turns): the rules changed nothing
+         lost battle-gen9randombattle-278567 (p2, 34 turns): the rules changed nothing
+         lost battle-gen9randombattle-278568 (p1, 58 turns): the rules changed nothing
+         lost battle-gen9randombattle-278584 (p1, 25 turns): the rules changed nothing
+         lost battle-gen9randombattle-278580 (p1, 46 turns): the rules changed nothing
+         lost battle-gen9randombattle-278583 (p2, 46 turns): the rules changed nothing
+         lost battle-gen9randombattle-278592 (p1, 35 turns): T4 Heavy Slam + Tera -> switch Scream Tail (set-up read 61%: switched to a counter (switch Scream Tail holds Encore, 100% HP)); T5 Protect -> Encore (set up last turn: played the counter (encore encore))
+         lost battle-gen9randombattle-278599 (p2, 12 turns): the rules changed nothing
+         lost battle-gen9randombattle-278597 (p2, 33 turns): the rules changed nothing
+         lost battle-gen9randombattle-278602 (p1, 49 turns): the rules changed nothing
+         lost battle-gen9randombattle-278614 (p1, 38 turns): the rules changed nothing
+         lost battle-gen9randombattle-278622 (p1, 31 turns): the rules changed nothing
+         lost battle-gen9randombattle-278626 (p1, 29 turns): the rules changed nothing
+         lost battle-gen9randombattle-278638 (p1, 22 turns): the rules changed nothing
+         lost battle-gen9randombattle-278644 (p1, 17 turns): the rules changed nothing
+         lost battle-gen9randombattle-278636 (p1, 57 turns): T52 Sludge Wave -> Sleep Powder (boosted +4: played the counter (sleep sleeppowder))
+         lost battle-gen9randombattle-278647 (p2, 29 turns): T23 Scald -> Haze (set-up read 62%: played the counter (haze haze)); T25 Protect -> Haze (boosted +2: played the counter (haze haze))
+         lost battle-gen9randombattle-278652 (p1, 31 turns): the rules changed nothing
+         lost battle-gen9randombattle-278656 (p1, 24 turns): the rules changed nothing
+         lost battle-gen9randombattle-278655 (p2, 38 turns): the rules changed nothing
+         lost battle-gen9randombattle-278662 (p1, 38 turns): T29 Shell Smash -> Spore (boosted +2: played the counter (sleep spore))
+         lost battle-gen9randombattle-278666 (p1, 47 turns): the rules changed nothing
+         lost battle-gen9randombattle-278669 (p2, 35 turns): the rules changed nothing
+         lost battle-gen9randombattle-278672 (p1, 33 turns): the rules changed nothing
+         lost battle-gen9randombattle-278674 (p1, 25 turns): the rules changed nothing
+         lost battle-gen9randombattle-278671 (p2, 45 turns): the rules changed nothing
+         lost battle-gen9randombattle-278677 (p2, 25 turns): T2 Earthquake -> Yawn (boosted +2: played the counter (sleep yawn)); T20 Draining Kiss -> Encore (set up last turn: played the counter (encore encore))
+         lost battle-gen9randombattle-278679 (p2, 29 turns): the rules changed nothing
+         lost battle-gen9randombattle-278684 (p1, 20 turns): T15 Giga Drain -> Spore (boosted +2: played the counter (sleep spore))
+         lost battle-gen9randombattle-278683 (p2, 29 turns): the rules changed nothing
+         lost battle-gen9randombattle-278688 (p1, 24 turns): the rules changed nothing
+         lost battle-gen9randombattle-278691 (p2, 26 turns): the rules changed nothing
+         lost battle-gen9randombattle-278692 (p1, 23 turns): T23 Shell Side Arm -> Earthquake (boosted +6: kept: no counter can work; spd +6 boosted: Earthquake does 42% where Shell Side Arm does 3%)
+         lost battle-gen9randombattle-278703 (p2, 32 turns): the rules changed nothing
+         lost battle-gen9randombattle-278709 (p2, 21 turns): the rules changed nothing
+         lost battle-gen9randombattle-278713 (p2, 37 turns): the rules changed nothing
+         lost battle-gen9randombattle-278719 (p2, 16 turns): the rules changed nothing
+         lost battle-gen9randombattle-278723 (p2, 22 turns): the rules changed nothing
+         lost battle-gen9randombattle-278720 (p1, 63 turns): T1 Shell Smash + Tera -> switch Meganium (set-up read 54%: switched to a counter (switch Meganium holds Encore, 100% HP)); T3 Knock Off -> Energy Ball (boosted +2: kept: no counter can work; def +2 boosted: Energy Ball does 37% where Knock Off does 10%)
+         lost battle-gen9randombattle-278733 (p2, 40 turns): the rules changed nothing
+         lost battle-gen9randombattle-278737 (p2, 24 turns): the rules changed nothing
+         lost battle-gen9randombattle-278739 (p2, 22 turns): the rules changed nothing
+         lost battle-gen9randombattle-278740 (p1, 31 turns): the rules changed nothing
+         lost battle-gen9randombattle-278742 (p1, 39 turns): the rules changed nothing
+         lost battle-gen9randombattle-278750 (p1, 28 turns): T24 Rapid Spin -> Spore (boosted +4: played the counter (sleep spore))
+         lost battle-gen9randombattle-278753 (p2, 29 turns): T9 Knock Off -> Encore (set up last turn: played the counter (encore encore))
+         lost battle-gen9randombattle-278763 (p2, 23 turns): the rules changed nothing
+         lost battle-gen9randombattle-278769 (p2, 33 turns): T23 Draco Meteor -> switch Volcanion (boosted +2: switched to a counter (switch Volcanion holds Haze, 80% HP)); T24 Flamethrower -> Haze (boosted +3: played the counter (haze haze))
+         lost battle-gen9randombattle-278775 (p2, 29 turns): the rules changed nothing
+         lost battle-gen9randombattle-278766 (p1, 60 turns): T16 Scald -> Haze (boosted +2: played the counter (haze haze))
+         lost battle-gen9randombattle-278785 (p2, 22 turns): the rules changed nothing
+         lost battle-gen9randombattle-278787 (p2, 19 turns): T6 Stone Edge -> switch Hawlucha (set up last turn: switched to a counter (switch Hawlucha holds Encore, 100% HP))
+         lost battle-gen9randombattle-278782 (p1, 43 turns): the rules changed nothing
+         lost battle-gen9randombattle-278791 (p2, 32 turns): T20 Hydro Pump -> Rock Blast (spd +1 boosted: Rock Blast does 28% where Hydro Pump does 22%)
+         lost battle-gen9randombattle-278799 (p2, 27 turns): T11 switch Kyogre -> switch Hypno (boosted +2: switched to a counter (switch Hypno holds Encore, 100% HP))
+         lost battle-gen9randombattle-278797 (p2, 43 turns): the rules changed nothing
+         lost battle-gen9randombattle-278803 (p2, 29 turns): the rules changed nothing
+         lost battle-gen9randombattle-278817 (p2, 27 turns): the rules changed nothing
+         lost battle-gen9randombattle-278820 (p1, 22 turns): T9 Population Bomb -> Encore (set up last turn: played the counter (encore encore))
+         lost battle-gen9randombattle-278823 (p2, 31 turns): the rules changed nothing
+         lost battle-gen9randombattle-278827 (p2, 26 turns): the rules changed nothing
+         lost battle-gen9randombattle-278831 (p2, 25 turns): the rules changed nothing
+         lost battle-gen9randombattle-278834 (p1, 16 turns): the rules changed nothing
+         lost battle-gen9randombattle-278837 (p2, 45 turns): T9 Coil -> switch Gastrodon (set up last turn: switched to a counter (switch Gastrodon holds Clear Smog, 99% HP))
+         e.g. battle-gen9randombattle-278548 T2: boosted +2: switched to a counter (switch Torkoal holds Yawn, 100% HP)  [{'net': 'Close Combat', 'search': 'Close Combat', 'mix': 'Close Combat', 'pick': 'switch Torkoal'}]
+         e.g. battle-gen9randombattle-278550 T15: spd +1 boosted: Earthquake does 23% where Hydro Pump does 23%  [{'net': 'switch Zoroark', 'search': 'Earthquake', 'mix': 'Hydro Pump', 'pick': 'Earthquake'}]
+         e.g. battle-gen9randombattle-278550 T16: spd +1 boosted: Earthquake does 23% where Hydro Pump does 23%  [{'net': 'switch Zoroark', 'search': 'Earthquake', 'mix': 'Hydro Pump', 'pick': 'Earthquake'}]
+         e.g. battle-gen9randombattle-278575 T2: set-up read 56%: switched to a counter (switch Uxie holds Encore, 100% HP)  [{'net': 'switch Arcanine', 'search': 'switch Mesprit', 'mix': 'switch Skarmory', 'pick': 'switch Uxie'}]
+         e.g. battle-gen9randombattle-278592 T4: set-up read 61%: switched to a counter (switch Scream Tail holds Encore, 100% HP)  [{'net': 'Shed Tail', 'search': 'Body Press + Tera', 'mix': 'Heavy Slam + Tera', 'pick': 'switch Scream Tail'}]
+         e.g. battle-gen9randombattle-278592 T5: set up last turn: played the counter (encore encore)  [{'net': 'Protect', 'search': 'Protect', 'mix': 'Protect', 'pick': 'Encore'}]
+         e.g. battle-gen9randombattle-278612 T2: set up last turn: switched to a counter (switch Vaporeon holds Haze, 100% HP)  [{'net': 'Shell Smash', 'search': 'Shell Smash', 'mix': 'Shell Smash', 'pick': 'switch Vaporeon'}]
+         e.g. battle-gen9randombattle-278619 T15: set up last turn: switched to a counter (switch Minun holds Encore, 100% HP)  [{'net': 'Flamethrower', 'search': 'Flamethrower', 'mix': 'Flamethrower', 'pick': 'switch Minun'}]
+         e.g. battle-gen9randombattle-278619 T17: boosted +2: switched to a counter (switch Minun holds Encore, 75% HP)  [{'net': 'Calm Mind', 'search': 'Calm Mind', 'mix': 'Calm Mind', 'pick': 'switch Minun'}]
+         e.g. battle-gen9randombattle-278635 T11: boosted +2: switched to a counter (switch Appletun holds Dragon Tail, 100% HP)  [{'net': 'Giga Impact', 'search': 'Giga Impact', 'mix': 'Giga Impact', 'pick': 'switch Appletun'}]
+         e.g. battle-gen9randombattle-278635 T12: boosted +4: played the counter (phaze dragontail)  [{'net': 'Dragon Tail', 'search': 'Draco Meteor', 'mix': 'Draco Meteor', 'pick': 'Dragon Tail'}]
+         e.g. battle-gen9randombattle-278631 T18: set-up read 65%: switched to a counter (switch Appletun holds Dragon Tail, 89% HP)  [{'net': 'U-turn', 'search': 'U-turn', 'mix': 'U-turn', 'pick': 'switch Appletun'}]
+  errors {'counter_errors': 0, 'exceptions': 0, 'predict_errors': 0, 'trackers_broken': 0, 'after_end': 0, 'audit': {'requests': 10107, 'invalid_choices': 0, 'unavailable_choices': 4, 'other_errors': 0, 'exceptions': 0, 'forced_random': 0}, 'inactivity': 0, 'forfeit': 0, 'start_retries': 1}; ties 0, stalled 0
+  helpers {'decisions': 9877, 'decision_errors': 0, 'timeouts': 0, 'expired': 0, 'helper_exits': 0, 'hangs': 0, 'iterations_per_decision': 405281}; loop lag {'checks': 6905, 'max_ms': 401.2, 'over_500_ms': 0, 'late_ms_total': 0.0}
+pooled mix-counter minus mix: {'points': -1.1, 'lo': -5.0, 'hi': 2.8, 'z': -0.54, 'weights': {'su': 0.794, 'fp': 0.087, 'nt': 0.118}} (normal errors: {'points': -1.3, 'lo': -4.9, 'hi': 2.4, 'z': -0.68, 'weights': {'su': 0.82, 'fp': 0.076, 'nt': 0.104}}); mean of the opponents {'points': 2.8, 'lo': -3.1, 'hi': 8.8}

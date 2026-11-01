@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.venv/
+checkpoints/
+# Showdown client files and set data fetched by heuristic/setup.js
+heuristic/cache/
+# Built by psbot/build-launcher.cmd
+*.exe
+# Per-machine state written by cloud/launch.sh (instance id, request files)
+cloud/.state/
+# Runs and evaluation output
+runs/
+.pytest_cache/
+# Stop marker for ladder.py
+ladder.stop*

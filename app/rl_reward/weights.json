@@ -1,0 +1,55 @@
+{
+ "features": [
+  "alive_diff",
+  "hp_diff",
+  "alive_share",
+  "hp_share",
+  "active_hp_diff",
+  "slpfrz_diff",
+  "par_diff",
+  "brn_diff",
+  "psn_diff",
+  "off_boost_diff",
+  "def_boost_diff",
+  "neg_boost_diff",
+  "rocks_diff",
+  "spikes_diff",
+  "tspikes_diff",
+  "web_diff",
+  "screens_diff",
+  "tera_diff",
+  "hidden_diff"
+ ],
+ "weights": [
+  1.1913707503936848,
+  1.2825591393723617,
+  -0.5227800376406736,
+  1.4392161573783238,
+  0.09186003812131215,
+  -0.6431863508392187,
+  -0.9373151818976607,
+  -0.9483745191926927,
+  -0.8814036843609002,
+  0.5123027878754609,
+  0.4676124916551001,
+  0.2525613391323887,
+  -0.16706099746848416,
+  -0.43979689390030646,
+  -0.36849001018214245,
+  -0.2840430582563919,
+  0.6065655055820537,
+  0.2930939936746508,
+  0.2418400019745902
+ ],
+ "cap": 0.98,
+ "meta": {
+  "fitted_on": "2987 public gen9randombattle replays, ratings 2351 to 2547 (91293 turn states)",
+  "model": "Phi = cap * tanh(w . features); w from a logistic fit with no intercept and L2 3.0, every game weighted equally, then cap and slope set out-of-fold",
+  "out_of_fold": {
+   "logloss": 0.5982,
+   "brier": 0.207,
+   "acc": 0.6653,
+   "auc": 0.7178
+  }
+ }
+}

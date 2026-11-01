@@ -1,0 +1,52 @@
+
+== fp   (2026-10-12T23:38:57Z to 2026-10-13T00:20:17Z, 42.18 min)
+   invalid orders, exceptions, forced random, other errors: {'requests': 4585, 'invalid_choices': 0, 'unavailable_choices': 0, 'other_errors': 0, 'exceptions': 0, 'forced_random': 0}; inactivity 0, forfeit 0, stalled 0, start retries 1, loop lag {'checks': 10029, 'max_ms': 230.9, 'over_500_ms': 0, 'late_ms_total': 0.0}
+   helpers: 4498 decisions, 0 expired, 0 timeouts, 0 exits, 0 hangs, 569893 iterations per decision
+   mix              57 games  29-28  50.9% (38.3 to 63.4)   p1 12/28  p2 17/29
+       Tera in 46 (80.7% (68.7 to 88.9)), turn median 12.0 mean 15.6, by {'mix': 46}, won with 25/46 without 4/11; game 33.0 turns, 65.6 s
+       decisions 2129, asked 2079, answered 2079, fallbacks 0 {'single': 50}, late 0
+       disagreed 933 (44.9%), network overruled 462 (22.2%), search overruled 577 (27.8%), Tera added 29 dropped 28
+       iterations {'n': 2079, 'mean': 571636, 'median': 336000, 'p10': 293000, 'below_60000': 0}
+       ms per decision {'n': 2129, 'mean': 1150.4, 'median': 1186.0, 'p95': 1231.0, 'p99': 1254.8, 'max': 1381.5}
+       Tera decisions {'offered': 1014, 'played': 46, 'net_best': 45, 'search_best': 51, 'answered': 1014, 'net_p_mean': 0.0497, 'search_share_mean': 0.103}
+       predict {'made': 1868, 'scored': 1662, 'top1_right': 1030, 'reads': 0, 'reads_scored': 0, 'reads_right': 0, 'changed': 0, 'changed_scored': 0, 'changed_right': 0, 'games_with_a_change': 0, 'won_with_a_change': 0, 'won_without_a_change': 29, 'kept': {'changed': 1868}, 'changed_records': 0}
+   mix-lines        57 games  37-20  64.9% (51.9 to 76.0)   p1 18/29  p2 19/28
+       Tera in 53 (93.0% (83.3 to 97.2)), turn median 11 mean 17.8, by {'lines': 12, 'mix': 41}, won with 35/53 without 2/4; game 38.5 turns, 124.6 s
+       decisions 2456, asked 2419, answered 2419, fallbacks 0 {'single': 36, 'revive': 1}, late 0
+       disagreed 1096 (45.3%), network overruled 627 (25.9%), search overruled 737 (30.5%), Tera added 38 dropped 22
+       iterations {'n': 2419, 'mean': 568395, 'median': 343000, 'p10': 299000, 'below_60000': 0}
+       ms per decision {'n': 2456, 'mean': 2604.4, 'median': 2725.0, 'p95': 3102.5, 'p99': 3181.6, 'max': 3311.6}
+       Tera decisions {'offered': 1028, 'played': 53, 'net_best': 37, 'search_best': 52, 'answered': 1028, 'net_p_mean': 0.0414, 'search_share_mean': 0.0933}
+       predict {'made': 2181, 'scored': 1940, 'top1_right': 1178, 'reads': 0, 'reads_scored': 0, 'reads_right': 0, 'changed': 0, 'changed_scored': 0, 'changed_right': 0, 'games_with_a_change': 0, 'won_with_a_change': 0, 'won_without_a_change': 37, 'kept': {'changed': 2181}, 'changed_records': 0}
+
+== nt   (2026-10-12T23:38:47Z to 2026-10-13T00:13:55Z, 35.79 min)
+   invalid orders, exceptions, forced random, other errors: {'requests': 4893, 'invalid_choices': 0, 'unavailable_choices': 7, 'other_errors': 0, 'exceptions': 0, 'forced_random': 0}; inactivity 0, forfeit 0, stalled 0, start retries 1, loop lag {'checks': 8488, 'max_ms': 235.1, 'over_500_ms': 0, 'late_ms_total': 0.0}
+   helpers: 4793 decisions, 0 expired, 0 timeouts, 0 exits, 0 hangs, 604491 iterations per decision
+   mix              70 games  38-32  54.3% (42.7 to 65.4)   p1 18/35  p2 20/35
+       Tera in 62 (88.6% (79.0 to 94.1)), turn median 13.0 mean 13.9, by {'mix': 62}, won with 33/62 without 5/8; game 28.2 turns, 44.3 s
+       decisions 2297, asked 2255, answered 2255, fallbacks 0 {'single': 42}, late 0
+       disagreed 1053 (46.7%), network overruled 480 (21.3%), search overruled 669 (29.7%), Tera added 45 dropped 40
+       iterations {'n': 2255, 'mean': 638636, 'median': 340000, 'p10': 298000, 'below_60000': 0}
+       ms per decision {'n': 2297, 'mean': 1157.4, 'median': 1188.0, 'p95': 1238.1, 'p99': 1256.9, 'max': 1297.8}
+       Tera decisions {'offered': 1095, 'played': 62, 'net_best': 57, 'search_best': 78, 'answered': 1095, 'net_p_mean': 0.0552, 'search_share_mean': 0.1187}
+       predict {'made': 1972, 'scored': 1738, 'top1_right': 907, 'reads': 0, 'reads_scored': 0, 'reads_right': 0, 'changed': 0, 'changed_scored': 0, 'changed_right': 0, 'games_with_a_change': 0, 'won_with_a_change': 0, 'won_without_a_change': 38, 'kept': {'changed': 1979}, 'changed_records': 0}
+   mix-lines        70 games  29-41  41.4% (30.6 to 53.1)   p1 15/35  p2 14/35
+       Tera in 64 (91.4% (82.5 to 96.0)), turn median 13.0 mean 14.1, by {'lines': 14, 'mix': 50}, won with 26/64 without 3/6; game 32.2 turns, 103.5 s
+       decisions 2596, asked 2538, answered 2537, fallbacks 1 {'single': 58, 'narrow': 1}, late 0
+       disagreed 1181 (46.6%), network overruled 696 (27.4%), search overruled 793 (31.3%), Tera added 46 dropped 32
+       iterations {'n': 2537, 'mean': 574379, 'median': 328000, 'p10': 283000, 'below_60000': 0}
+       ms per decision {'n': 2596, 'mean': 2585.6, 'median': 2732.0, 'p95': 3097.8, 'p99': 3147.6, 'max': 3193.9}
+       Tera decisions {'offered': 1163, 'played': 64, 'net_best': 50, 'search_best': 60, 'answered': 1163, 'net_p_mean': 0.049, 'search_share_mean': 0.1003}
+       predict {'made': 2238, 'scored': 2001, 'top1_right': 1066, 'reads': 0, 'reads_scored': 0, 'reads_right': 0, 'changed': 0, 'changed_scored': 0, 'changed_right': 0, 'games_with_a_change': 0, 'won_with_a_change': 0, 'won_without_a_change': 29, 'kept': {'changed': 2238}, 'changed_records': 0}
+
+   fp:mix minus fp:mix-lines: -14.0 points (95% -30.8 to +4.0), z -1.53; games per arm for this difference to be 2 standard errors: 96, for 80% power: 195
+
+   nt:mix minus nt:mix-lines: +12.9 points (95% -3.6 to +28.4), z 1.54; games per arm for this difference to be 2 standard errors: 116, for 80% power: 237
+
+== opponent of fp: foulplay, 114 games
+   zaccfp: {'games': 57, 'wins': 27, 'decisions': 2173, 'answered': 2173, 'no_order': 0, 'iterations_mean': 512773, 'iterations_median': 315000, 'iterations_p10': 268000, 'below_60000': 42, 'ms_mean': 1304.6, 'ms_p95': 2115, 'ms_max': 2201}
+   zchafp: {'games': 57, 'wins': 21, 'decisions': 2463, 'answered': 2462, 'no_order': 1, 'iterations_mean': 476359, 'iterations_median': 303000, 'iterations_p10': 259000, 'below_60000': 63, 'ms_mean': 1382.8, 'ms_p95': 2123, 'ms_max': 2226}
+
+== opponent of nt: net, 140 games
+   zaccnt: {'games': 70, 'wins': 37}
+   zchant: {'games': 70, 'wins': 36}

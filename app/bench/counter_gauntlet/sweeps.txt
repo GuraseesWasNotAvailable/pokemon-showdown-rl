@@ -1,0 +1,12 @@
+== su
+  mix            150 games, 147-3, won 98% (94, 99), lost to a set-up sweep 3 = 2% of games (1, 6)
+  mix-counter    150 games, 143-7, won 95% (91, 98), lost to a set-up sweep 5 = 3% of games (1, 8)
+  mix-counter minus mix: won -2.7 points (-7.5, +1.7), set-up sweep losses +1.3 points of games (-2.8, +5.8)
+== fp
+  mix             99 games, 60-39, won 61% (51, 70), lost to a set-up sweep 10 = 10% of games (6, 18)
+  mix-counter     99 games, 68-31, won 69% (59, 77), lost to a set-up sweep 13 = 13% of games (8, 21)
+  mix-counter minus mix: won +8.1 points (-5.2, +21.0), set-up sweep losses +3.0 points of games (-6.2, +12.3)
+== nt
+  mix            148 games, 75-73, won 51% (43, 59), lost to a set-up sweep 35 = 24% of games (18, 31)
+  mix-counter    147 games, 79-68, won 54% (46, 62), lost to a set-up sweep 24 = 16% of games (11, 23)
+  mix-counter minus mix: won +3.1 points (-8.2, +14.3), set-up sweep losses -7.3 points of games (-16.4, +1.8)

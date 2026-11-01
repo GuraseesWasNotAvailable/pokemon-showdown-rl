@@ -1,0 +1,61 @@
+# PSBot Lookahead --test-think: the thinking slider and the search style as ladder.py's search arguments
+# helpers 3 (games at once + 1, at most 4); a move takes about 2.26 x the search per guessed team
+# teams: guessed opponent teams a move (twice as many at half the time early in a game); ms: the search per team
+# about: the expected move; cap: the deadline passed; floor: search_player.minimum_deadline of that search
+# seconds style  mode      player    teams ms    about cap   floor args
+  0.5     deeper lookahead mix       2     200   0.45  2.5   0.87  --player mix --mix-rule veto --search-ms 200 --helpers 3 --deadline 2.5
+  0.5     deeper guarded   mix-trust 2     200   0.45  2.5   0.87  --player mix-trust --mix-rule veto --search-ms 200 --helpers 3 --deadline 2.5
+  0.5     wider  lookahead mix       2     200   0.45  2.5   0.87  --player mix --mix-rule veto --search-ms 200 --helpers 3 --deadline 2.5
+  0.5     wider  guarded   mix-trust 2     200   0.45  2.5   0.87  --player mix-trust --mix-rule veto --search-ms 200 --helpers 3 --deadline 2.5
+  1       deeper lookahead mix       2     500   1.13  2.5   1.62  --player mix --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5
+  1       deeper guarded   mix-trust 2     500   1.13  2.5   1.62  --player mix-trust --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5
+  1       wider  lookahead mix       2     500   1.13  2.5   1.62  --player mix --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5
+  1       wider  guarded   mix-trust 2     500   1.13  2.5   1.62  --player mix-trust --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5
+  1.5     deeper lookahead mix       2     700   1.58  2.5   2.12  --player mix --mix-rule veto --search-ms 700 --helpers 3 --deadline 2.5
+  1.5     deeper guarded   mix-trust 2     700   1.58  2.5   2.12  --player mix-trust --mix-rule veto --search-ms 700 --helpers 3 --deadline 2.5
+  1.5     wider  lookahead mix       2     700   1.58  2.5   2.12  --player mix --mix-rule veto --search-ms 700 --helpers 3 --deadline 2.5
+  1.5     wider  guarded   mix-trust 2     700   1.58  2.5   2.12  --player mix-trust --mix-rule veto --search-ms 700 --helpers 3 --deadline 2.5
+  2       deeper lookahead mix       2     900   2.03  2.7   2.62  --player mix --mix-rule veto --search-ms 900 --helpers 3 --deadline 2.7
+  2       deeper guarded   mix-trust 2     900   2.03  2.7   2.62  --player mix-trust --mix-rule veto --search-ms 900 --helpers 3 --deadline 2.7
+  2       wider  lookahead mix-deep  4     500   2.26  3.0   2.87  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 2 --deep-threads 1 --deep-workers 1 --deep-deadline 3.0
+  2       wider  guarded   mix-deep  4     500   2.26  3.0   2.87  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 2 --deep-threads 1 --deep-workers 1 --deep-deadline 3.0 --trust 0.03
+  2.5     deeper lookahead mix       2     1100  2.49  3.2   3.12  --player mix --mix-rule veto --search-ms 1100 --helpers 3 --deadline 3.2
+  2.5     deeper guarded   mix-trust 2     1100  2.49  3.2   3.12  --player mix-trust --mix-rule veto --search-ms 1100 --helpers 3 --deadline 3.2
+  2.5     wider  lookahead mix-deep  4     500   2.26  3.0   2.87  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 2 --deep-threads 1 --deep-workers 1 --deep-deadline 3.0
+  2.5     wider  guarded   mix-deep  4     500   2.26  3.0   2.87  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 2 --deep-threads 1 --deep-workers 1 --deep-deadline 3.0 --trust 0.03
+  3       deeper lookahead mix       2     1300  2.94  3.7   3.62  --player mix --mix-rule veto --search-ms 1300 --helpers 3 --deadline 3.7
+  3       deeper guarded   mix-trust 2     1300  2.94  3.7   3.62  --player mix-trust --mix-rule veto --search-ms 1300 --helpers 3 --deadline 3.7
+  3       wider  lookahead mix-deep  6     500   3.39  4.2   4.12  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 3 --deep-threads 1 --deep-workers 1 --deep-deadline 4.2
+  3       wider  guarded   mix-deep  6     500   3.39  4.2   4.12  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 3 --deep-threads 1 --deep-workers 1 --deep-deadline 4.2 --trust 0.03
+  3.5     deeper lookahead mix       2     1500  3.39  4.2   4.12  --player mix --mix-rule veto --search-ms 1500 --helpers 3 --deadline 4.2
+  3.5     deeper guarded   mix-trust 2     1500  3.39  4.2   4.12  --player mix-trust --mix-rule veto --search-ms 1500 --helpers 3 --deadline 4.2
+  3.5     wider  lookahead mix-deep  6     500   3.39  4.2   4.12  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 3 --deep-threads 1 --deep-workers 1 --deep-deadline 4.2
+  3.5     wider  guarded   mix-deep  6     500   3.39  4.2   4.12  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 3 --deep-threads 1 --deep-workers 1 --deep-deadline 4.2 --trust 0.03
+  4       deeper lookahead mix       2     1800  4.07  5.0   4.87  --player mix --mix-rule veto --search-ms 1800 --helpers 3 --deadline 5.0
+  4       deeper guarded   mix-trust 2     1800  4.07  5.0   4.87  --player mix-trust --mix-rule veto --search-ms 1800 --helpers 3 --deadline 5.0
+  4       wider  lookahead mix-deep  8     500   4.52  5.5   5.37  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 4 --deep-threads 1 --deep-workers 1 --deep-deadline 5.5
+  4       wider  guarded   mix-deep  8     500   4.52  5.5   5.37  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 4 --deep-threads 1 --deep-workers 1 --deep-deadline 5.5 --trust 0.03
+  4.5     deeper lookahead mix       2     2000  4.52  5.5   5.37  --player mix --mix-rule veto --search-ms 2000 --helpers 3 --deadline 5.5
+  4.5     deeper guarded   mix-trust 2     2000  4.52  5.5   5.37  --player mix-trust --mix-rule veto --search-ms 2000 --helpers 3 --deadline 5.5
+  4.5     wider  lookahead mix-deep  8     500   4.52  5.5   5.37  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 4 --deep-threads 1 --deep-workers 1 --deep-deadline 5.5
+  4.5     wider  guarded   mix-deep  8     500   4.52  5.5   5.37  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 4 --deep-threads 1 --deep-workers 1 --deep-deadline 5.5 --trust 0.03
+  5       deeper lookahead mix       2     2200  4.97  6.0   5.87  --player mix --mix-rule veto --search-ms 2200 --helpers 3 --deadline 6.0
+  5       deeper guarded   mix-trust 2     2200  4.97  6.0   5.87  --player mix-trust --mix-rule veto --search-ms 2200 --helpers 3 --deadline 6.0
+  5       wider  lookahead mix-deep  8     500   4.52  5.5   5.37  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 4 --deep-threads 1 --deep-workers 1 --deep-deadline 5.5
+  5       wider  guarded   mix-deep  8     500   4.52  5.5   5.37  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 4 --deep-threads 1 --deep-workers 1 --deep-deadline 5.5 --trust 0.03
+  5.5     deeper lookahead mix       2     2400  5.42  6.5   6.37  --player mix --mix-rule veto --search-ms 2400 --helpers 3 --deadline 6.5
+  5.5     deeper guarded   mix-trust 2     2400  5.42  6.5   6.37  --player mix-trust --mix-rule veto --search-ms 2400 --helpers 3 --deadline 6.5
+  5.5     wider  lookahead mix-deep  10    500   5.65  6.7   6.62  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 5 --deep-threads 1 --deep-workers 1 --deep-deadline 6.7
+  5.5     wider  guarded   mix-deep  10    500   5.65  6.7   6.62  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 5 --deep-threads 1 --deep-workers 1 --deep-deadline 6.7 --trust 0.03
+  6       deeper lookahead mix       2     2700  6.10  7.2   7.12  --player mix --mix-rule veto --search-ms 2700 --helpers 3 --deadline 7.2
+  6       deeper guarded   mix-trust 2     2700  6.10  7.2   7.12  --player mix-trust --mix-rule veto --search-ms 2700 --helpers 3 --deadline 7.2
+  6       wider  lookahead mix-deep  10    500   5.65  6.7   6.62  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 5 --deep-threads 1 --deep-workers 1 --deep-deadline 6.7
+  6       wider  guarded   mix-deep  10    500   5.65  6.7   6.62  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 5 --deep-threads 1 --deep-workers 1 --deep-deadline 6.7 --trust 0.03
+  6.5     deeper lookahead mix       2     2900  6.55  7.7   7.62  --player mix --mix-rule veto --search-ms 2900 --helpers 3 --deadline 7.7
+  6.5     deeper guarded   mix-trust 2     2900  6.55  7.7   7.62  --player mix-trust --mix-rule veto --search-ms 2900 --helpers 3 --deadline 7.7
+  6.5     wider  lookahead mix-deep  12    500   6.78  8.0   7.87  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 6 --deep-threads 1 --deep-workers 1 --deep-deadline 8.0
+  6.5     wider  guarded   mix-deep  12    500   6.78  8.0   7.87  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 6 --deep-threads 1 --deep-workers 1 --deep-deadline 8.0 --trust 0.03
+  7       deeper lookahead mix       2     3100  7.01  8.2   8.12  --player mix --mix-rule veto --search-ms 3100 --helpers 3 --deadline 8.2
+  7       deeper guarded   mix-trust 2     3100  7.01  8.2   8.12  --player mix-trust --mix-rule veto --search-ms 3100 --helpers 3 --deadline 8.2
+  7       wider  lookahead mix-deep  12    500   6.78  8.0   7.87  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 6 --deep-threads 1 --deep-workers 1 --deep-deadline 8.0
+  7       wider  guarded   mix-deep  12    500   6.78  8.0   7.87  --player mix-deep --mix-rule veto --search-ms 500 --helpers 3 --deadline 2.5 --deep-search-ms 500 --deep-worlds 6 --deep-threads 1 --deep-workers 1 --deep-deadline 8.0 --trust 0.03

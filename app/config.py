@@ -1,0 +1,353 @@
+"""
+Configuration module for PokeTransformer Reinforcement Learning.
+
+This module defines the schema and default parameters for observation processing,
+neural network architecture, environment interaction, and the PPO learner.
+"""
+
+from __future__ import annotations
+
+import logging
+import torch
+import torch.nn as nn
+from dataclasses import dataclass, asdict, field
+from typing import Any, Dict, Optional, Tuple, Literal, Final
+from pathlib import Path
+
+# Setup logging for configuration errors
+logger = logging.getLogger(__name__)
+
+@dataclass(frozen=True)
+class ObsConfig:
+    """Configuration for observation parsing and tokenization schema."""
+    n_slots: int = 6
+    n_move_slots: int = 4
+    hp_bins: int = 11  # Categorical bins for HP percentage
+    vocab_path: str = "vocab.json"
+
+
+@dataclass(frozen=True)
+class ModelConfig:
+    """Parameters for the PokeTransformer/PokeNet architecture."""
+    
+    # Dedicated Embedding Sizes
+    emb_dims: Dict[str, int] = field(default_factory=lambda: {
+        "pokemon": 64,
+        "item": 32,
+        "ability": 64,
+        "move": 64,
+        "action": 14,
+    })
+    
+    # Dedicated Subnet Output Sizes
+    out_dims: Dict[str, int] = field(default_factory=lambda: {
+        "ability_vec": 64,
+        "pokemon_vec": 512,
+        "global_vec": 96,
+        "transition_vec": 416,
+    })
+    
+    # Universal Embedding Bank Sizes
+    bank_dims: Dict[str, int] = field(default_factory=lambda: {
+        "val_100": 32,  # HP, Level, Acc, PP
+        "stat": 64,     # Base Stats, Weight, Height
+        "power": 32,    # Move Power
+    })
+    
+    # Vocabulary Safety Caps
+    bank_ranges: Dict[str, int] = field(default_factory=lambda: {
+        "val_100": 101,
+        "stat": 800,
+        "power": 251,
+    })
+    
+    dropout: float = 0.0
+    n_layers: int = 3
+    n_heads: int = 8
+    ff_expansion: float = 4.0
+    kv_cache_len: int = 64
+
+
+@dataclass(frozen=True)
+class EnvConfig:
+    """Pokemon Showdown environment settings."""
+    battle_format: str = "gen9randombattle"
+    act_dim: int = 14  # 4 moves + 4 tera moves + 6 switches
+
+
+@dataclass(frozen=True)
+class RolloutConfig:
+    """Settings for distributed rollout workers and batching logic."""
+    target_concurrent_battles: int = 800
+    rooms_per_pair: int = 32
+
+    # Timeouts
+    infer_timeout_s: float = 15.0
+    open_timeout: float = 30.0
+
+    # Batching constraints
+    infer_min_batch: int = 32
+    infer_max_batch: int = 2048
+    infer_wait_ms: float = 3.0
+    infer_max_pending: int = 20000
+
+    learn_min_episodes: int = 1
+    learn_max_episodes: int = 32
+    learn_wait_ms: float = 1.0
+    learn_max_pending_episodes: int = 220
+    learn_max_pending_batches: int = 5 
+
+    # Who the imitation and JEPA modes learn from:
+    #   "psbot"   the PSBot heuristic (psbot/psbot.js, run headless by heuristic/engine.js)
+    #   "simple"  poke-env's SimpleHeuristicsPlayer, the original teacher
+    imitation_teacher: str = "psbot"
+
+    def worker_kwargs(self) -> Dict[str, Any]:
+        """Returns a dictionary suitable for RolloutWorker initialization."""
+        return asdict(self)
+
+
+@dataclass(frozen=True)
+class InferenceConfig:
+    """Config for the centralized inference server/actor."""
+    device: str = "cuda" if torch.cuda.is_available() else "cpu"
+    server_min_batch: int = 0
+    server_max_wait: float = 0
+
+    def kwargs(self) -> Dict[str, Any]:
+        return {
+            "device": self.device,
+            "server_min_batch": self.server_min_batch,
+            "server_max_wait": self.server_max_wait,
+        }
+
+@dataclass(frozen=True)
+class LearnerConfig:
+    """Core PPO and Hyperparameter settings."""
+    device: str = "cuda" if torch.cuda.is_available() else "cpu"
+    # Supported Modes:
+    #   imitation
+    #   jepa_pretraining
+    #   warmup
+    #   warmup_with_actor_reset
+    #   ppo
+    #   ppo_frozen_backbone
+    mode: str = "ppo_with_jepa"
+    
+    # Reinforcement Learning Math
+    gamma: float = 0.999
+    gae_lambda: float = 0.75
+    use_dynamic_lambda: bool = True
+    dynamic_lambda_min: float = 0.55
+    dynamic_lambda_max: float = 0.95
+    dynamic_lambda_eps: float = 1e-8
+    
+    jepa_ema_tau: float = 0.99
+    
+    # Distributional Value (Two-Hot Encoding)
+    use_twohot_value: bool = True
+    v_min: float = -1.5
+    v_max: float = 1.5
+    v_bins: int = 51
+    
+    # Schedules
+    temp_start: float = 1.0
+    temp_end: float = 1.0
+    temp_total_steps: int = 500_000
+    
+    # Optimizer settings
+    lr: float = 3e-4
+    lr_warmup_steps: int = 1_000
+    lr_hold_steps: int = 500_000
+    # Optimizer steps at which the anneal ends at 1/27 of the rate. This value is smaller than
+    # the hold, so the whole anneal happens in one step: at optimizer step 501,001 of a phase
+    # (about 192 million decisions into PPO at 96 steps per update) the rate falls 27 times at
+    # once. It is the value every run so far was planned and started with, and it is left as
+    # it is on purpose: what the schedule should be after the hold is the owner's decision
+    # (TRAINING.md, "Limits to know before a long run"; bench/SPEED_AUDIT.md section 5 works
+    # out 1_000_000, which glides to 1/27 instead). Nothing differs before step 501,001, the
+    # schedule is rebuilt from this file at every trainer start, and only the step count is
+    # restored from a checkpoint, so it can be changed at any restart before that step.
+    lr_total_steps: int = 1_00_000
+    weight_decay: float = 1e-2
+    
+    # Layer-specific LR multipliers (initialized in __post_init__)
+    lr_backbone_mult: float = field(init=False)
+    lr_pi_mult: float = field(init=False)
+    lr_v_mult: float = field(init=False)
+    
+    # PPO Specifics
+    update_epochs: int = 2
+    minibatch_size: int = 768
+    # Minibatches per optimizer step. This used to read 4 but was never passed to the update
+    # (it was missing from ppo_kwargs), so every run so far has effectively used 1. It is now
+    # passed through, and 1 keeps the default behaviour unchanged. On a small GPU, a smaller
+    # minibatch with a matching value here gives the same effective batch.
+    grad_accum_steps: int = 1
+    batch_seq_len: int = 256
+    clip_coef: float = 0.1
+    ent_coef: float = 0.02
+    vf_coef: float = 0.5
+    jepa_coef: float = 1.0
+    clip_vloss: bool = False
+    max_grad_norm: float = 0.5
+    target_kl: Optional[float] = 0.02
+    steps_per_update: int = 36864
+
+    # Checkpointing
+    ckpt_dir: str = "checkpoints"
+    save_every_updates: int = 25
+    keep_last: int = 500
+    resume: bool = True
+    
+    # Auxiliary Tasks
+    use_hp_aux: bool = False
+    hp_aux_coef: float = 0.4
+
+    def __post_init__(self):
+        """Sets gradient multipliers based on the current TrainingMode."""
+        # Use object.__setattr__ because the dataclass is frozen
+        multipliers = {
+            "imitation": (1.0, 1.0, 0.6), # backbone, actor, critic
+            "warmup": (0.0, 0.0, 1.0), # backbone, actor, critic
+            "ppo": (0.5, 1.0, 2.0), # backbone, actor, critic
+            "warmup_with_actor_reset": (0.0, 1.0, 0.001)
+        }
+        backbone, pi, v = multipliers.get(self.mode, (1.0, 1.0, 1.0))
+        object.__setattr__(self, "lr_backbone_mult", backbone)
+        object.__setattr__(self, "lr_pi_mult", pi)
+        object.__setattr__(self, "lr_v_mult", v)
+        
+        if self.batch_seq_len <= 0:
+            raise ValueError("batch_seq_len must be > 0")
+        if self.minibatch_size % self.batch_seq_len != 0:
+            raise ValueError(
+                f"minibatch_size ({self.minibatch_size}) must be divisible by "
+                f"batch_seq_len ({self.batch_seq_len})"
+            )
+
+    def get_temp(self, global_step: int) -> float:
+        """Calculates linear annealing of the action temperature."""
+        if global_step >= self.temp_total_steps:
+            return self.temp_end
+        frac = global_step / self.temp_total_steps
+        return self.temp_start + frac * (self.temp_end - self.temp_start)
+
+    def ppo_kwargs(self) -> Dict[str, Any]:
+        """Extracts PPO-specific hyperparameters for the optimizer."""
+        keys = [
+            "update_epochs", "minibatch_size", "batch_seq_len", "grad_accum_steps",
+            "clip_coef", "ent_coef", "hp_aux_coef",
+            "vf_coef", "clip_vloss", "max_grad_norm", "target_kl"
+        ]
+        return {k: getattr(self, k) for k in keys}
+
+
+@dataclass(frozen=True)
+class RewardConfig:
+    """
+    Defines the reward signal for the agent. RL_REWARD.md has the reasoning and the evidence.
+
+    shaping:
+      "potential"  win/loss at the end, plus scale * (gamma * Phi(next) - Phi(now)) on every step,
+                   where Phi is the fitted position value in rl_reward/. The shaping terms cancel
+                   over a game, so the best policy is the best policy for win/loss alone.
+      "faint"      the upstream reward: win/loss plus faint_self / faint_opp per fainted Pokemon.
+                   Pays more for wide wins than for narrow ones.
+      "none"       win/loss only.
+    """
+    terminal_win: float = 1.0
+    terminal_loss: float = -1.0
+    terminal_tie: float = 0.0
+    shaping: str = "potential"
+    # Largest |Phi| is the cap in rl_reward/weights.json (about 0.85), so with 0.5 every return
+    # lies inside the value head's [-1.5, 1.5] support (LearnerConfig.v_min / v_max).
+    shaping_scale: float = 0.5
+    potential_file: str = ""  # empty: rl_reward/weights.json
+    use_faint_reward: bool = False  # kept for old configs; "faint" above is what selects it
+    faint_self: float = -0.1
+    faint_opp: float = +0.1
+
+    def __post_init__(self):
+        if self.shaping not in ("potential", "faint", "none"):
+            raise ValueError("RewardConfig.shaping must be 'potential', 'faint' or 'none'")
+        if not 0.0 <= self.shaping_scale <= 1.0:
+            raise ValueError("RewardConfig.shaping_scale must be between 0 and 1")
+
+
+@dataclass(frozen=True)
+class RunConfig:
+    """The master configuration object coordinating all sub-configs."""
+    obs: ObsConfig
+    model: ModelConfig
+    env: EnvConfig
+    rollout: RolloutConfig
+    infer: InferenceConfig
+    learner: LearnerConfig
+    reward: RewardConfig
+
+    @classmethod
+    def default(cls) -> RunConfig:
+        """Factory method for default settings."""
+        return cls(
+            obs=ObsConfig(),
+            model=ModelConfig(),
+            env=EnvConfig(),
+            rollout=RolloutConfig(),
+            infer=InferenceConfig(),
+            learner=LearnerConfig(),
+            reward=RewardConfig(),
+        )
+
+    def make_model(self, matchup: bool = False, movesets: bool = False) -> nn.Module:
+        """
+        Instantiates the PokeTransformer model based on current configuration.
+
+        matchup / movesets: the network of a branch train-v2 checkpoint trained with that branch's
+        matchup block (and moveset block), as its run_cfg["obs"] says (obs_v2.py): the first Linear
+        of move_net and pokemon_net then has the blocks' input columns at the end. Both False (the
+        default, what every caller of this line passes) builds exactly the network it always built.
+
+        Returns:
+            nn.Module: An initialized model ready for training or inference.
+
+        Raises:
+            ImportError: If required core modules are missing.
+        """
+        try:
+            from obs_assembler import ObservationAssembler
+            from ppo_core import PokeTransformer
+        except ImportError as e:
+            logger.error(f"Failed to import model components: {e}")
+            raise
+
+        # Derive schema metadata (Source of Truth for input sizes). The blocks' meta is there only
+        # when asked for, as in train-v2's make_model (its ObsConfig.matchup / ObsConfig.movesets).
+        if movesets and not matchup:
+            raise ValueError("the moveset block needs the matchup block")
+        if matchup:
+            from obs_v2 import V2ObservationAssembler
+            assembler = V2ObservationAssembler(movesets=movesets)
+        else:
+            assembler = ObservationAssembler()
+
+        return PokeTransformer(
+            act_dim=int(self.env.act_dim),
+            meta=assembler.meta,
+            emb_dims=self.model.emb_dims,
+            out_dims=self.model.out_dims,
+            bank_dims=self.model.bank_dims,
+            bank_ranges=self.model.bank_ranges,
+            n_heads=self.model.n_heads,
+            n_layers=self.model.n_layers,
+            v_bins=int(self.learner.v_bins),
+            v_min=float(self.learner.v_min),
+            v_max=float(self.learner.v_max),
+            ff_expansion=self.model.ff_expansion,
+            dropout=self.model.dropout,
+            kv_cache_len=self.model.kv_cache_len,
+        )
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the entire configuration tree to a dictionary."""
+        return asdict(self)

@@ -1,0 +1,96 @@
+{
+  "_notes": {
+    "what this is": "The PPO run on the 64-vCPU box (g6e.16xlarge, one L40S 46 GB, on demand, $7.58 an hour, launched 2026-10-05 11:32 UTC in another person's AWS account). Read by pipeline.py (everything but \"eval\") and by evaluate.py (\"eval\"). The live copy is ~/runs/main/run.json on the box, outside the code, so a new release cannot reset it.",
+    "history": "Imitation of PSBot ran by hand to 27.5M decisions (checkpoint learner_update_000745.pt, kept in phase_final/). Warmup ran by hand for 2.2M decisions (learner_update_000060.pt, kept in phase_final/). Both phases are marked skip so the supervisor starts in PPO and resumes the newest PPO checkpoint.",
+    "servers.count, train_defaults.battles": "44 servers. Measured on this box with release r1: warmup at 44 x 32 battles gave 3,500 decisions a second with 14 of 64 threads busy; the single inference thread is the limit, so more battles per server (a bigger batch per inference call) is the lever. 44 x 64 = 2816.",
+    "phases.ppo.target_decisions": "600,000,000: about 42 hours at 4,000 a second. The plan stops the box at 72 hours, at this count, or on a plateau, whichever comes first.",
+    "train_defaults.save_every": "Every 25 updates is about every 4 minutes at this speed.",
+    "watchdog.recycle_hours": "A planned clean restart every 6 hours.",
+    "retention": "On: newest 8, everything younger than 8 hours, every 250th update, each phase's last, and everything an evaluation names.",
+    "on_done": "shutdown: when PPO reaches its target, wait for the final evaluation, then halt the box (it stops, the disk stays).",
+    "on_failed": "idle for now: a failed run leaves the box up for a person to look at. The 2-hourly check-in reads status.py.",
+    "eval": "Every 3 hours: 400 games against each of simple and psbot, 100 against random and maxpower would add nothing, so they are left out. Foul Play: 200 games every 3 hours on 8 cores (training leaves about 45 threads idle)."
+  },
+
+  "repo_dir": "/home/ubuntu/ps-ppo",
+  "python": "/home/ubuntu/venv/bin/python",
+  "showdown_dir": "/home/ubuntu/pokemon-showdown",
+
+  "servers": {
+    "count": 44,
+    "base_port": 8000,
+    "heap_mb": 2048,
+    "ready_timeout_seconds": 420
+  },
+
+  "trainer": {
+    "stop_timeout_seconds": 420,
+    "failure_stop_timeout_seconds": 120
+  },
+
+  "train_defaults": {
+    "battles": 2816,
+    "rooms_per_pair": 16,
+    "minibatch": 768,
+    "seq_len": 256,
+    "grad_accum": 1,
+    "steps_per_update": 36864,
+    "teacher": "psbot",
+    "save_every": 25,
+    "extra_train_args": []
+  },
+
+  "phases": {
+    "imitation": {
+      "skip": true,
+      "min_decisions": 1500000,
+      "max_decisions": 4000000,
+      "extra_train_args": []
+    },
+    "warmup": {
+      "skip": true,
+      "min_decisions": 500000,
+      "max_decisions": 1500000,
+      "extra_train_args": []
+    },
+    "ppo": {
+      "target_decisions": 600000000,
+      "extra_train_args": []
+    }
+  },
+
+  "watchdog": {
+    "stall_minutes": 10,
+    "startup_grace_minutes": 20,
+    "update_stall_minutes": 15,
+    "max_restarts_per_hour": 6,
+    "backoff_seconds": [30, 120, 300, 600, 900],
+    "max_fruitless_starts": 5,
+    "nan_updates_limit": 3,
+    "telemetry_error_minutes": 5,
+    "recycle_hours": 6
+  },
+
+  "disk": {"min_free_gb": 20},
+
+  "retention": {
+    "enabled": true,
+    "keep_newest": 8,
+    "milestone_every": 250,
+    "keep_hours": 8,
+    "check_minutes": 10
+  },
+
+  "on_done": "shutdown",
+  "on_done_wait_minutes": 240,
+  "on_done_grace_minutes": 5,
+  "on_failed": "idle",
+  "shutdown_command": ["sudo", "shutdown", "-h", "now"],
+
+  "eval": {
+    "every_hours": 3,
+    "games": 400,
+    "opponents": ["simple", "psbot"],
+    "foulplay": {"games": 200, "every_hours": 3, "parallel": 8}
+  }
+}
