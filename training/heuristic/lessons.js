@@ -46,8 +46,7 @@ function add(file) {
 async function run(opts) {
 	// The lessons are turns of real public ladder games, which are not published with the code:
 	// without them there is nothing to check (add your own with `node lessons.js add <battle.json>`).
-	if (!fs.existsSync(LIST)) { console.log('
-0/0 lessons pass (no lessons.json: none recorded here)'); return 0; }
+	if (!fs.existsSync(LIST)) { console.log('\n0/0 lessons pass (no lessons.json: none recorded here)'); return 0; }
 	const {createEngine} = require('./engine');
 	const {replay} = require('./replay');
 	const lessons = JSON.parse(fs.readFileSync(LIST, 'utf8')).filter(l => !opts.only || (l.name + ' ' + l.game).includes(opts.only));
